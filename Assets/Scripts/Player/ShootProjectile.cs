@@ -8,7 +8,8 @@ public class ShootProjectile : MonoBehaviour
 
     public GameObject projectilePrefab;
     public float projectileSpeed = 100;
-    //public AudioClip shootSFX;
+    public AudioClip gunSFX1;
+    public AudioClip gunSFX2;
 
     public Image reticleImage;
     public Color reticleEnemyColor;
@@ -36,7 +37,11 @@ public class ShootProjectile : MonoBehaviour
             projectile.transform.SetParent(
                 GameObject.FindGameObjectWithTag("ProjectileParent").transform);
 
-            //AudioSource.PlayClipAtPoint(shootSFX, transform.position);
+
+            if (Random.Range(0, 2) == 0)
+                AudioSource.PlayClipAtPoint(gunSFX1, transform.position);
+            else
+                AudioSource.PlayClipAtPoint(gunSFX2, transform.position);
         }
     }
 
