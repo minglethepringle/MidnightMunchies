@@ -11,6 +11,10 @@ public class ShopUIController : MonoBehaviour
     private static PlayerLookController playerLookController;
     private static ShopUIController instance;
 
+    private Text alert;
+
+    private Dictionary<Item.ItemType, GameObject> shopItems = new Dictionary<Item.ItemType, GameObject>();
+
     private void Awake()
     {
         if (instance == null)
@@ -25,6 +29,20 @@ public class ShopUIController : MonoBehaviour
 
         container = transform.Find("Container");
         shopItemTemplate = container.Find("ShopItemTemplate");
+        
+        Transform alertTransform = transform.Find("Alert");
+        if (alertTransform != null)
+        {
+            alert = alertTransform.GetComponent<Text>();
+            if (alert == null)
+            {
+                Debug.LogWarning("Alert Text component not found on Alert object.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Alert object not found in ShopUIController.");
+        }
     }
 
     private void Start()
@@ -34,19 +52,22 @@ public class ShopUIController : MonoBehaviour
             playerLookController = Camera.main.GetComponent<PlayerLookController>();
         }
 
-        // for every item in the shop, create a button
-        foreach (Item.ItemType itemType in System.Enum.GetValues(typeof(Item.ItemType)))
-        {
-            CreateItemButton(itemType);
-        }
+        CreateItemButton(Item.ItemType.AssaultRifle);
+        CreateItemButton(Item.ItemType.Shotgun);
+        CreateItemButton(Item.ItemType.RocketLauncher);
+        CreateItemButton(Item.ItemType.Armor);
+        CreateItemButton(Item.ItemType.Grenades);
+        CreateItemButton(Item.ItemType.Airstrikes);
+        CreateItemButton(Item.ItemType.SloMo);
+        CreateItemButton(Item.ItemType.MoAmmo);
+        CreateItemButton(Item.ItemType.MoDamage);
+        CreateItemButton(Item.ItemType.MoBullets);
+
         Hide();
     }
 
     private void CreateItemButton(Item.ItemType itemType)
     {
-        string name = Item.GetName(itemType);
-        int price = Item.GetCost(itemType);
-
         Transform shopItemTransform = Instantiate(shopItemTemplate, container);
         RectTransform shopItemRectTransform = shopItemTransform.GetComponent<RectTransform>();
 
@@ -58,8 +79,13 @@ public class ShopUIController : MonoBehaviour
 
         Text itemName = shopItemTransform.Find("ItemName").GetComponent<Text>();
         Text itemPrice = shopItemTransform.Find("ItemPrice").GetComponent<Text>();
-        itemName.text = name;
-        itemPrice.text = '$' + price.ToString();
+        Text itemSold = shopItemTransform.Find("ItemSold").GetComponent<Text>();
+
+        itemName.text = Item.GetName(itemType);
+        itemPrice.text = '$' + Item.GetCost(itemType).ToString();
+        itemSold.text = "SOLD";
+
+        itemSold.gameObject.SetActive(false);
 
         shopItemTransform.gameObject.SetActive(true);
 
@@ -68,20 +94,72 @@ public class ShopUIController : MonoBehaviour
         {
             TryToBuyItem(itemType);
         });
+
+        shopItems[itemType] = shopItemTransform.gameObject;
+
+        UpdateItemUI(itemType);
     }
 
-    private void TryToBuyItem(Item.ItemType item)
+    private void TryToBuyItem(Item.ItemType itemType)
     {
-        int cost = Item.GetCost(item);
+        if (Item.IsItemPurchased(itemType))
+        {
+            SetAlertText("Item already purchased");
+            return;
+        }
+
+        int cost = Item.GetCost(itemType);
         if (PlayerBankAccount.GetCurrentBalance() >= cost)
         {
             PlayerBankAccount.SubtractHuskyDollars(cost);
-            Debug.Log("Item bought");
+            Item.PurchaseItem(itemType);
+            SetAlertText("Item bought: " + Item.GetName(itemType));
+            UpdateItemUI(itemType);
         }
         else
         {
-            Debug.Log("Not enough money");
+            SetAlertText("Not enough money");
         }
+    }
+
+    private void UpdateItemUI(Item.ItemType itemType)
+    {
+        if (shopItems.TryGetValue(itemType, out GameObject shopItem))
+        {
+            Text itemPrice = shopItem.transform.Find("ItemPrice").GetComponent<Text>();
+            Text itemSold = shopItem.transform.Find("ItemSold").GetComponent<Text>();
+
+            if (Item.IsItemPurchased(itemType))
+            {
+                itemPrice.gameObject.SetActive(false);
+                itemSold.gameObject.SetActive(true);
+            }
+            else
+            {
+                itemPrice.gameObject.SetActive(true);
+                itemSold.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void SetAlertText(string text)
+    {
+        if (alert == null)
+        {
+            Debug.LogWarning("Cannot set alert text: Alert Text component is null.");
+            return;
+        }
+
+        alert.text = text;
+        StartCoroutine(RemoveAlertText());
+    }
+
+    private IEnumerator RemoveAlertText()
+    {
+        if (alert == null) yield break;
+
+        yield return new WaitForSeconds(2);
+        alert.text = "";
     }
 
     public static void Hide()

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Item
 {
+    private static HashSet<ItemType> purchasedItems = new HashSet<ItemType>();
+
     public enum ItemType
     {
         AssaultRifle,
@@ -52,5 +54,15 @@ public class Item
             case ItemType.MoBullets: return "Mo' Bullets";
             default: return "Unknown Item"; // should never happen
         }
+    }
+
+    public static void PurchaseItem(ItemType itemType)
+    {
+        purchasedItems.Add(itemType);
+    }
+
+    public static bool IsItemPurchased(ItemType itemType)
+    {
+        return purchasedItems.Contains(itemType);
     }
 }
