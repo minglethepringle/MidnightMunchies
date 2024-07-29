@@ -34,12 +34,17 @@ public class ShopUIController : MonoBehaviour
             playerLookController = Camera.main.GetComponent<PlayerLookController>();
         }
 
-        CreateItemButton("Damage Item", Item.ItemType.Damage_1);
+        // for every item in the shop, create a button
+        foreach (Item.ItemType itemType in System.Enum.GetValues(typeof(Item.ItemType)))
+        {
+            CreateItemButton(itemType);
+        }
         Hide();
     }
 
-    private void CreateItemButton(string name, Item.ItemType itemType)
+    private void CreateItemButton(Item.ItemType itemType)
     {
+        string name = Item.GetName(itemType);
         int price = Item.GetCost(itemType);
 
         Transform shopItemTransform = Instantiate(shopItemTemplate, container);

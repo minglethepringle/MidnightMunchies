@@ -35,7 +35,7 @@ public class PlayerBankAccount : MonoBehaviour
         
     }
 
-    void OnCollisionEnter(Collision other) {
+    void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("Money")) {
             AddHuskyDollars(10);
             Destroy(other.gameObject);
