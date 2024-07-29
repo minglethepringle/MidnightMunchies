@@ -5,7 +5,7 @@ using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TrackHuskyDollars : MonoBehaviour
+public class PlayerBankAccount : MonoBehaviour
 {
     public int startingBalance = 100;
 
@@ -61,7 +61,7 @@ public class TrackHuskyDollars : MonoBehaviour
     }
 
     private static void UpdateBalanceText() {
-        balanceText.text = "$" + currentBalance + ".00";
-        balanceTextShadow.text = "$" + currentBalance + ".00";
+        balanceText.text = "$" + currentBalance;
+        balanceTextShadow.text = "$" + currentBalance;
     }
 }

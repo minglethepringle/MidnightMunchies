@@ -35,7 +35,7 @@ public class EnemyHealth : MonoBehaviour
             return;
         }
 
-        if (CalculateDistanceFromPlayer() < 20)
+        if (currentHealth < startingHealth && CalculateDistanceFromPlayer() < 20)
         {
             healthSlider.gameObject.SetActive(true);
         }
@@ -69,8 +69,9 @@ public class EnemyHealth : MonoBehaviour
         animator.SetBool("dieNow", true);
         Destroy(healthSlider.gameObject);
 
-        GameObject money = Instantiate(moneyPrefab, transform.position, Quaternion.identity);
-        money.GetComponent<Rigidbody>().AddForce(Vector3.up * 5, ForceMode.Impulse);
+        Vector3 moneyPosition = transform.position;
+        moneyPosition.y = 1;
+        Instantiate(moneyPrefab, moneyPosition, Quaternion.identity);
     }
 
     private float CalculateDistanceFromPlayer() {

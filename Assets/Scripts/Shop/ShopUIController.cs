@@ -7,43 +7,35 @@ public class ShopUIController : MonoBehaviour
 {
     private Transform container;
     private Transform shopItemTemplate;
-    private List<Transform> shopItems = new List<Transform>();
-    private int selectedItemIndex = 0;
+
+    private static PlayerLookController playerLookController;
+    private static ShopUIController instance;
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         container = transform.Find("Container");
         shopItemTemplate = container.Find("ShopItemTemplate");
-        shopItemTemplate.gameObject.SetActive(false);
     }
 
     private void Start()
     {
+        if (playerLookController == null)
+        {
+            playerLookController = Camera.main.GetComponent<PlayerLookController>();
+        }
+
         CreateItemButton("Damage Item", Item.ItemType.Damage_1);
-        CreateItemButton("Damage Item 2", Item.ItemType.Damage_2);
-
-        UpdateSelection();
         Hide();
-    }
-
-    private void Update()
-    {
-        if (!gameObject.activeSelf) return;
-
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            selectedItemIndex = (selectedItemIndex + 1) % shopItems.Count;
-            UpdateSelection();
-        }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            selectedItemIndex = (selectedItemIndex - 1 + shopItems.Count) % shopItems.Count;
-            UpdateSelection();
-        }
-        else if (Input.GetKeyDown(KeyCode.Return))
-        {
-            TryToBuyItem((Item.ItemType)selectedItemIndex);
-        }
     }
 
     private void CreateItemButton(string name, Item.ItemType itemType)
@@ -65,31 +57,20 @@ public class ShopUIController : MonoBehaviour
         itemPrice.text = '$' + price.ToString();
 
         shopItemTransform.gameObject.SetActive(true);
-        shopItems.Add(shopItemTransform);
-    }
 
-    private void UpdateSelection()
-    {
-        for (int i = 0; i < shopItems.Count; i++)
+        Button button = shopItemTransform.GetComponent<Button>();
+        button.onClick.AddListener(() =>
         {
-            Text itemName = shopItems[i].Find("ItemName").GetComponent<Text>();
-            if (i == selectedItemIndex)
-            {
-                itemName.color = Color.white;
-            }
-            else
-            {
-                itemName.color = Color.gray;
-            }
-        }
+            TryToBuyItem(itemType);
+        });
     }
 
     private void TryToBuyItem(Item.ItemType item)
     {
         int cost = Item.GetCost(item);
-        if (TrackHuskyDollars.GetCurrentBalance() >= cost)
+        if (PlayerBankAccount.GetCurrentBalance() >= cost)
         {
-            TrackHuskyDollars.SubtractHuskyDollars(cost);
+            PlayerBankAccount.SubtractHuskyDollars(cost);
             Debug.Log("Item bought");
         }
         else
@@ -98,15 +79,58 @@ public class ShopUIController : MonoBehaviour
         }
     }
 
-    public void Hide()
+    public static void Hide()
     {
-        gameObject.SetActive(false);
+        if (instance != null)
+        {
+            instance.gameObject.SetActive(false);
+            if (playerLookController != null)
+            {
+                playerLookController.SetIsShopping(false);
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else
+            {
+                Debug.LogWarning("PlayerLookController is null. Cannot set shopping state.");
+            }
+        }
     }
 
-    public void Show()
+    public static void Show()
     {
-        gameObject.SetActive(true);
-        selectedItemIndex = 0;
-        UpdateSelection();
+        if (instance != null)
+        {
+            instance.gameObject.SetActive(true);
+            if (playerLookController != null)
+            {
+                playerLookController.SetIsShopping(true);
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Debug.LogWarning("PlayerLookController is null. Cannot set shopping state.");
+            }
+        }
+    }
+
+    public static void Toggle()
+    {
+        if (instance != null)
+        {
+            if (instance.gameObject.activeSelf)
+            {
+                Hide();
+            }
+            else
+            {
+                Show();
+            }
+        }
+        else
+        {
+            Debug.LogWarning("ShopUIController instance is null. Cannot toggle.");
+        }
     }
 }
