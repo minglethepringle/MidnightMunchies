@@ -15,13 +15,9 @@ public class PlayerMovementController : MonoBehaviour
     private Vector3 input;
     private Vector3 moveDirection;
 
-    private float normalHeight;
-    public float teabagSpeed = 10f;
-    
     // Start is called before the first frame update
     void Start()
     {
-        normalHeight = transform.localScale.y;
         controller = GetComponent<CharacterController>();
     }
 
@@ -65,53 +61,53 @@ public class PlayerMovementController : MonoBehaviour
         
         controller.Move(moveDirection * Time.deltaTime);
 
-        if (Input.GetKey(KeyCode.T))
-        {
-            StartTeabagging();
-        }
-        else
-        {
-            StopTeabagging();
-        }
+        // if (Input.GetKey(KeyCode.T))
+        // {
+        //     StartTeabagging();
+        // }
+        // else
+        // {
+        //     StopTeabagging();
+        // }
     }
 
-    void StartTeabagging()
-    {
-        transform.localScale = Vector3.Lerp(
-            transform.localScale,
-            new Vector3(1, 0.5f, 1),
-            Time.deltaTime * teabagSpeed
-        );
-        Vector3 newPosition = new Vector3(
-            transform.position.x,
-            0.5f,
-            transform.position.z
-        );
-        transform.position = Vector3.Lerp(
-            transform.position,
-            newPosition,
-            Time.deltaTime * teabagSpeed
-        );
-    }
-
-    void StopTeabagging()
-    {
-        if (transform.localScale.y == normalHeight) return;
-
-        transform.localScale = Vector3.Lerp(
-            transform.localScale,
-            new Vector3(1, normalHeight, 1),
-            Time.deltaTime * teabagSpeed
-        );
-        Vector3 newPosition = new Vector3(
-            transform.position.x,
-            normalHeight,
-            transform.position.z
-        );
-        transform.position = Vector3.Lerp(
-            transform.position,
-            newPosition,
-            Time.deltaTime * teabagSpeed
-        );
-    }
+    // void StartTeabagging()
+    // {
+    //     transform.localScale = Vector3.Lerp(
+    //         transform.localScale,
+    //         new Vector3(1, 0.5f, 1),
+    //         Time.deltaTime * teabagSpeed
+    //     );
+    //     // Vector3 newPosition = new Vector3(
+    //     //     transform.position.x,
+    //     //     0.5f,
+    //     //     transform.position.z
+    //     // );
+    //     // transform.position = Vector3.Lerp(
+    //     //     transform.position,
+    //     //     newPosition,
+    //     //     Time.deltaTime * teabagSpeed
+    //     // );
+    // }
+    //
+    // void StopTeabagging()
+    // {
+    //     if (transform.localScale.y == normalHeight) return;
+    //
+    //     transform.localScale = Vector3.Lerp(
+    //         transform.localScale,
+    //         new Vector3(1, normalHeight, 1),
+    //         Time.deltaTime * teabagSpeed
+    //     );
+    //     // Vector3 newPosition = new Vector3(
+    //     //     transform.position.x,
+    //     //     normalHeight,
+    //     //     transform.position.z
+    //     // );
+    //     // transform.position = Vector3.Lerp(
+    //     //     transform.position,
+    //     //     newPosition,
+    //     //     Time.deltaTime * teabagSpeed
+    //     // );
+    // }
 }
