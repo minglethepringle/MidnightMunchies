@@ -171,7 +171,7 @@ public class ShopUIController : MonoBehaviour
             {
                 playerLookController.SetIsShopping(false);
                 Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Confined;
+                Cursor.lockState = CursorLockMode.Locked;
             }
             else
             {
@@ -189,7 +189,7 @@ public class ShopUIController : MonoBehaviour
             {
                 playerLookController.SetIsShopping(true);
                 Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+                Cursor.lockState = CursorLockMode.Confined;
             }
             else
             {

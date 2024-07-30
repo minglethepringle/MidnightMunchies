@@ -50,7 +50,7 @@ public class EnemyHealth : MonoBehaviour
             return;
         }
         
-        if (other.CompareTag("Projectile")) {
+        if (other.CompareTag("Bullet")) {
             TakeDamage(projectileDamage);
         }
     }

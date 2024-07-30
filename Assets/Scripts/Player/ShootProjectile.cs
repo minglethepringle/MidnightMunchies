@@ -32,18 +32,24 @@ public class ShootProjectile : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             muzzleFlash.Play();
-            Vector3 bulletOffsetPosition = new Vector3(0.01f, 0, 0);
-            Quaternion rotation = Quaternion.Euler(0, -3, 0);
+            
+            Vector3 bulletStartingPosition = transform.right;
             GameObject projectile = Instantiate(projectilePrefab,
-                transform.position + transform.forward + bulletOffsetPosition, transform.rotation) as GameObject;
+                transform.position,//bulletStartingPosition, // spawn at gun
+                transform.rotation);
 
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
 
-            rb.AddForce(transform.forward * projectileSpeed, ForceMode.VelocityChange);
+            // Vector3 hundredMetersForward = transform.forward * 100;
+            // Vector3 bulletDirection = (hundredMetersForward - bulletStartingPosition).normalized;
+            
+            rb.AddForce(
+                transform.forward * projectileSpeed,
+                //bulletDirection * projectileSpeed, 
+                ForceMode.VelocityChange);
 
             projectile.transform.SetParent(
                 GameObject.FindGameObjectWithTag("ProjectileParent").transform);
-
 
             if (Random.Range(0, 2) == 0)
                 AudioSource.PlayClipAtPoint(gunSFX1, transform.position);
