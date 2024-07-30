@@ -68,6 +68,7 @@ public class EnemyHealth : MonoBehaviour
         isDead = true;
         animator.SetBool("dieNow", true);
         Destroy(healthSlider.gameObject);
+        Destroy(gameObject.GetComponent<BoxCollider>());
 
         Vector3 moneyPosition = transform.position;
         moneyPosition.y = 1;
