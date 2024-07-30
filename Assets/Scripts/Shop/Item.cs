@@ -17,7 +17,15 @@ public class Item
         SloMo,
         MoAmmo,
         MoDamage,
-        MoBullets
+        MoBullets,
+        Subway1,
+        Subway2,
+        Subway3,
+        Subway4,
+        Subway5,
+        Subway6,
+        Subway7,
+        Subway8
     }
 
     public static int GetCost(ItemType itemType)
@@ -34,6 +42,13 @@ public class Item
             case ItemType.MoAmmo: return 40;
             case ItemType.MoDamage: return 60;
             case ItemType.MoBullets: return 50;
+            case ItemType.Subway1: return 10;
+            case ItemType.Subway2: return 10;
+            case ItemType.Subway3: return 10;
+            case ItemType.Subway4: return 10;
+            case ItemType.Subway5: return 10;
+            case ItemType.Subway6: return 10;
+            case ItemType.Subway7: return 5;
             default: return 0;
         }
     }
@@ -52,6 +67,15 @@ public class Item
             case ItemType.MoAmmo: return "Mo' Ammo";
             case ItemType.MoDamage: return "Mo' Damage";
             case ItemType.MoBullets: return "Mo' Bullets";
+            case ItemType.Subway1: return "Big Hot Pastrami";
+            case ItemType.Subway2: return "Cold Cut Combo";
+            case ItemType.Subway3: return "B.L.T.";
+            case ItemType.Subway4: return "Black Forest Ham";
+            case ItemType.Subway5: return "Meatball Marinara";
+            case ItemType.Subway6: return "Spicy Italian";
+            case ItemType.Subway7: return "Cookie";
+            case ItemType.Subway8: return "Fountain Drink";
+
             default: return "Unknown Item"; // should never happen
         }
     }
