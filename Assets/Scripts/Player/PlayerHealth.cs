@@ -44,6 +44,7 @@ public class PlayerHealth : MonoBehaviour
             Quaternion.Euler(90, 0, 0),
             Time.deltaTime
         );
+        FindObjectOfType<LevelManager>().LevelLost();
 
         // Destroy(gameObject, );
     }

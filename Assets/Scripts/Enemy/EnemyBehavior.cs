@@ -19,6 +19,7 @@ public class EnemyBehavior : MonoBehaviour
     public float damageInterval = 1f;
     
     private float lastDamageTime;
+    private bool isDead = false;
 
     // Start is called before the first frame update
     void Start()

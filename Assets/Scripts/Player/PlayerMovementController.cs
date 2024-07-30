@@ -15,19 +15,17 @@ public class PlayerMovementController : MonoBehaviour
     private Vector3 input;
     private Vector3 moveDirection;
 
-    private float normalHeight;
-    public float teabagSpeed = 10f;
-    
     // Start is called before the first frame update
     void Start()
     {
-        normalHeight = transform.localScale.y;
         controller = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        HandleShop();
+
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
         bool sprint = Input.GetKey(KeyCode.LeftShift);
@@ -64,54 +62,18 @@ public class PlayerMovementController : MonoBehaviour
         moveDirection.y -= (gravity * Time.deltaTime);
         
         controller.Move(moveDirection * Time.deltaTime);
+    }
 
-        if (Input.GetKey(KeyCode.T))
+    void HandleShop()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            StartTeabagging();
-        }
-        else
-        {
-            StopTeabagging();
+            ShopUIController.Toggle();
         }
     }
 
-    void StartTeabagging()
+    void HandleKiosk()
     {
-        transform.localScale = Vector3.Lerp(
-            transform.localScale,
-            new Vector3(1, 0.5f, 1),
-            Time.deltaTime * teabagSpeed
-        );
-        Vector3 newPosition = new Vector3(
-            transform.position.x,
-            0.5f,
-            transform.position.z
-        );
-        transform.position = Vector3.Lerp(
-            transform.position,
-            newPosition,
-            Time.deltaTime * teabagSpeed
-        );
-    }
-
-    void StopTeabagging()
-    {
-        if (transform.localScale.y == normalHeight) return;
-
-        transform.localScale = Vector3.Lerp(
-            transform.localScale,
-            new Vector3(1, normalHeight, 1),
-            Time.deltaTime * teabagSpeed
-        );
-        Vector3 newPosition = new Vector3(
-            transform.position.x,
-            normalHeight,
-            transform.position.z
-        );
-        transform.position = Vector3.Lerp(
-            transform.position,
-            newPosition,
-            Time.deltaTime * teabagSpeed
-        );
+        KioskUIController.Toggle();
     }
 }
