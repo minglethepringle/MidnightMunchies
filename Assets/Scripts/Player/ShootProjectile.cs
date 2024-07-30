@@ -16,10 +16,14 @@ public class ShootProjectile : MonoBehaviour
 
     Color originalReticleColor;
 
+    public ParticleSystem muzzleFlash;
+    
+
     // Start is called before the first frame update
     void Start()
     {
         originalReticleColor = reticleImage.color;
+        
     }
 
     // Update is called once per frame
@@ -27,8 +31,11 @@ public class ShootProjectile : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
+            muzzleFlash.Play();
+            Vector3 bulletOffsetPosition = new Vector3(0.01f, 0, 0);
+            Quaternion rotation = Quaternion.Euler(0, -3, 0);
             GameObject projectile = Instantiate(projectilePrefab,
-                transform.position + transform.forward, transform.rotation) as GameObject;
+                transform.position + transform.forward + bulletOffsetPosition, transform.rotation) as GameObject;
 
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
 
