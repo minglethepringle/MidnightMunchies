@@ -19,7 +19,7 @@ public class EnemyHit : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other) {
-        if (other.CompareTag("Projectile")) {
+        if (other.CompareTag("Bullet")) {
             animator.SetBool("dieNow", true);
         }
     }
