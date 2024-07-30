@@ -24,6 +24,8 @@ public class PlayerMovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HandleShop();
+
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
         bool sprint = Input.GetKey(KeyCode.LeftShift);
@@ -71,6 +73,13 @@ public class PlayerMovementController : MonoBehaviour
         // }
     }
 
+    void HandleShop()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ShopUIController.Toggle();
+        }
+    }
     // void StartTeabagging()
     // {
     //     transform.localScale = Vector3.Lerp(
