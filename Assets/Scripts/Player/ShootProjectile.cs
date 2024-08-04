@@ -33,19 +33,22 @@ public class ShootProjectile : MonoBehaviour
         {
             muzzleFlash.Play();
             
-            Vector3 bulletStartingPosition = transform.right;
+            Vector3 bulletStartingPosition = transform.position + (transform.right * 0.25f);
             GameObject projectile = Instantiate(projectilePrefab,
-                transform.position,//bulletStartingPosition, // spawn at gun
+                bulletStartingPosition, // spawn at gun
                 transform.rotation);
 
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
 
-            // Vector3 hundredMetersForward = transform.forward * 100;
-            // Vector3 bulletDirection = (hundredMetersForward - bulletStartingPosition).normalized;
+            Vector3 twentyMetersForward = transform.position + (transform.forward * 20);
+            Vector3 bulletDirection = (twentyMetersForward - bulletStartingPosition).normalized;
+
+            Vector3 target = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+            // Vector3 final_target = target + (Vector3.right * 0.25f);
             
             rb.AddForce(
-                transform.forward * projectileSpeed,
-                //bulletDirection * projectileSpeed, 
+                target * projectileSpeed,
+                // bulletDirection * projectileSpeed, 
                 ForceMode.VelocityChange);
 
             projectile.transform.SetParent(
