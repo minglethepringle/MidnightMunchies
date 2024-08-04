@@ -8,7 +8,9 @@ public class PlayerLookController : MonoBehaviour
     
 	private Transform playerBody;
 	private float pitch;
+
     private bool isShopping = false;
+    private bool isViewingInventory = false;
     
 	// Start is called before the first frame update
 	void Start()
@@ -22,7 +24,7 @@ public class PlayerLookController : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-        if (isShopping) return;
+        if (isShopping || isViewingInventory) return;
 
 		float moveX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
 		float moveY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
@@ -40,4 +42,9 @@ public class PlayerLookController : MonoBehaviour
     {
         this.isShopping = isShopping;
     }
+
+	public void SetIsViewingInventory(bool isViewingInventory)
+	{
+		this.isViewingInventory = isViewingInventory;
+	}
 }

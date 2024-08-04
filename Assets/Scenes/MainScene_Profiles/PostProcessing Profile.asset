@@ -1379,16 +1379,16 @@ MonoBehaviour:
     value: 0
   color:
     overrideState: 0
-    value: {r: 0, g: 0, b: 0, a: 1}
+    value: {r: 1, g: 0, b: 0, a: 1}
   center:
     overrideState: 0
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.22
+    value: 0.39
   smoothness:
     overrideState: 0
-    value: 0.2
+    value: 0.01
   roundness:
     overrideState: 1
     value: 1
@@ -1424,10 +1424,47 @@ MonoBehaviour:
     defaultState: 1
   intensity:
     overrideState: 1
-    value: 0.06
+    value: 0.09
   fastMode:
     overrideState: 0
     value: 0
+--- !u!114 &-2300028763630782331
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3f6f3f7c722b4544b97e3c75840aa33, type: 3}
+  m_Name: AutoExposure
+  m_EditorClassIdentifier: 
+  active: 0
+  enabled:
+    overrideState: 1
+    value: 1
+  filtering:
+    overrideState: 0
+    value: {x: 50, y: 95}
+  minLuminance:
+    overrideState: 0
+    value: 0
+  maxLuminance:
+    overrideState: 0
+    value: 0
+  keyValue:
+    overrideState: 0
+    value: 1
+  eyeAdaptation:
+    overrideState: 0
+    value: 0
+  speedUp:
+    overrideState: 0
+    value: 2
+  speedDown:
+    overrideState: 0
+    value: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1441,12 +1478,14 @@ MonoBehaviour:
   m_Name: PostProcessing Profile
   m_EditorClassIdentifier: 
   settings:
-  - {fileID: 5123518739485189107}
   - {fileID: -4438836168465651255}
   - {fileID: -2881566796153201036}
   - {fileID: -3171187627063452571}
   - {fileID: 3306129568079118962}
   - {fileID: -8823274904956946556}
+  - {fileID: 7313847287214921775}
+  - {fileID: 4449985206950641606}
+  - {fileID: -2300028763630782331}
 --- !u!114 &3306129568079118962
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1468,14 +1507,36 @@ MonoBehaviour:
     value: 0
   intensity:
     overrideState: 1
-    value: 0.1
+    value: 0.29
   size:
     overrideState: 0
     value: 1
   lumContrib:
     overrideState: 0
     value: 0.8
---- !u!114 &5123518739485189107
+--- !u!114 &4449985206950641606
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b94fcd11afffcb142908bfcb1e261fba, type: 3}
+  m_Name: MotionBlur
+  m_EditorClassIdentifier: 
+  active: 0
+  enabled:
+    overrideState: 1
+    value: 1
+  shutterAngle:
+    overrideState: 1
+    value: 200
+  sampleCount:
+    overrideState: 0
+    value: 10
+--- !u!114 &7313847287214921775
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1492,11 +1553,11 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   mode:
-    overrideState: 1
+    overrideState: 0
     value: 1
   intensity:
     overrideState: 1
-    value: 0
+    value: 0.39
   color:
     overrideState: 0
     value: {r: 0, g: 0, b: 0, a: 1}

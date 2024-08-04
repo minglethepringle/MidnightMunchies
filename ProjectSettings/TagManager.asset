@@ -12,6 +12,7 @@ TagManager:
   - MoneyUI
   - Money
   - ShopUI
+  - InventoryUI
   layers:
   - Default
   - TransparentFX

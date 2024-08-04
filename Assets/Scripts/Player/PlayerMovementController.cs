@@ -24,7 +24,7 @@ public class PlayerMovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleShop();
+        HandleUI();
 
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
@@ -64,11 +64,15 @@ public class PlayerMovementController : MonoBehaviour
         controller.Move(moveDirection * Time.deltaTime);
     }
 
-    void HandleShop()
+    void HandleUI()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             ShopUIController.Toggle();
+        }
+        else if (Input.GetKeyDown(KeyCode.I))
+        {
+            InventoryUIController.Toggle();
         }
     }
 

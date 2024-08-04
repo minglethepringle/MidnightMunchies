@@ -113,6 +113,7 @@ public class ShopUIController : MonoBehaviour
         {
             PlayerBankAccount.SubtractHuskyDollars(cost);
             Item.PurchaseItem(itemType);
+            Inventory.AddItem(itemType);
             SetAlertText("Item bought: " + Item.GetName(itemType));
             UpdateItemUI(itemType);
         }
