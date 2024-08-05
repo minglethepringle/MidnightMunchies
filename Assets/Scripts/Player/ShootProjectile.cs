@@ -29,6 +29,8 @@ public class ShootProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PlayerLookController.locked || PlayerMovementController.locked) return;
+        
         if (Input.GetButtonDown("Fire1"))
         {
             muzzleFlash.Play();
