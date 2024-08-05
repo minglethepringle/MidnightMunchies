@@ -15,21 +15,4 @@ public class CompleteLevel : MonoBehaviour
     {
         
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-
-        if (other.CompareTag("Player"))
-        {
-            KioskUIController.Toggle();
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            KioskUIController.Toggle();
-        }
-    }
 }

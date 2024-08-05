@@ -75,9 +75,4 @@ public class PlayerMovementController : MonoBehaviour
             ShopUIController.Toggle();
         }
     }
-
-    void HandleKiosk()
-    {
-        KioskUIController.Toggle();
-    }
 }
