@@ -51,9 +51,11 @@ public class PlayerCheckpoint : MonoBehaviour
             Item.SetItemsPurchased(items);
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        CharacterController controller = player.GetComponent<CharacterController>();
+
         player.transform.position = location;
         player.transform.rotation = rotation;
-        controller.enabled = true;
+
+        PlayerMovementController.locked = false;
+        PlayerLookController.locked = false;
     }
 }

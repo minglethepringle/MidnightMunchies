@@ -44,9 +44,9 @@ public class LevelManager : MonoBehaviour
         gameText.gameObject.SetActive(true);
 
         //AudioSource.PlayClipAtPoint(gameOverSFX, Camera.main.transform.position);
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        CharacterController controller = player.GetComponent<CharacterController>();
-        controller.enabled = false;
+        PlayerMovementController.locked = true;
+        PlayerLookController.locked = true;
+
         Invoke("RestartAtCheckpoint", 2);
         
 
