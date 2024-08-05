@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class PlayerLookController : MonoBehaviour
 {
+	public static bool locked = false;
+	
 	public float mouseSensitivity = 200f;
     
 	private Transform playerBody;
 	private float pitch;
-    private bool isShopping = false;
     
 	// Start is called before the first frame update
 	void Start()
@@ -22,7 +23,7 @@ public class PlayerLookController : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-        if (isShopping) return;
+        if (locked) return;
 
 		float moveX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
 		float moveY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
@@ -36,8 +37,16 @@ public class PlayerLookController : MonoBehaviour
 		transform.localRotation = Quaternion.Euler(pitch, 0, 0);
 	}
 
-    public void SetIsShopping(bool isShopping)
-    {
-        this.isShopping = isShopping;
-    }
+	public static void HideWeapons()
+	{
+		// Move it down and hide it
+		GameObject.FindGameObjectWithTag("Weapon").transform.localPosition -= new Vector3(0, 1000, 0);
+		GameObject.FindGameObjectWithTag("Crosshair").GetComponent<CanvasRenderer>().cull = true;
+	}
+	
+	public static void ShowWeapons()
+	{
+		GameObject.FindGameObjectWithTag("Weapon").transform.localPosition += new Vector3(0, 1000, 0);
+		GameObject.FindGameObjectWithTag("Crosshair").GetComponent<CanvasRenderer>().cull = false;
+	}
 }

@@ -167,7 +167,7 @@ public class KioskUIController : MonoBehaviour
             instance.gameObject.SetActive(false);
             if (playerLookController != null)
             {
-                playerLookController.SetIsShopping(false);
+                PlayerLookController.locked = false;
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Confined;
             }
@@ -185,7 +185,7 @@ public class KioskUIController : MonoBehaviour
             instance.gameObject.SetActive(true);
             if (playerLookController != null)
             {
-                playerLookController.SetIsShopping(true);
+                PlayerLookController.locked = true;
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
             }

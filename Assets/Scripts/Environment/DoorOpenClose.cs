@@ -27,7 +27,7 @@ public class DoorOpenClose : MonoBehaviour
         if (dist < 5)
         {
             hintText.gameObject.SetActive(true);
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(Controls.OPEN_DOOR))
             {
                 if (isOpen)
                 {
