@@ -10,6 +10,7 @@ public class ShootProjectile : MonoBehaviour
     public float projectileSpeed = 100;
     public AudioClip gunSFX1;
     public AudioClip gunSFX2;
+    public Vector3 bulletOffset = new Vector3(0.2f, -0.1f, 0);
 
     public Image reticleImage;
     public Color reticleEnemyColor;
@@ -23,7 +24,6 @@ public class ShootProjectile : MonoBehaviour
     void Start()
     {
         originalReticleColor = reticleImage.color;
-        
     }
 
     // Update is called once per frame
@@ -32,8 +32,8 @@ public class ShootProjectile : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             muzzleFlash.Play();
-            
-            Vector3 bulletStartingPosition = transform.position + (transform.right * 0.25f);
+
+            Vector3 bulletStartingPosition = transform.position + transform.TransformDirection(bulletOffset);
             GameObject projectile = Instantiate(projectilePrefab,
                 bulletStartingPosition, // spawn at gun
                 transform.rotation);
@@ -42,13 +42,9 @@ public class ShootProjectile : MonoBehaviour
 
             Vector3 twentyMetersForward = transform.position + (transform.forward * 20);
             Vector3 bulletDirection = (twentyMetersForward - bulletStartingPosition).normalized;
-
-            Vector3 target = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-            // Vector3 final_target = target + (Vector3.right * 0.25f);
             
             rb.AddForce(
-                target * projectileSpeed,
-                // bulletDirection * projectileSpeed, 
+                bulletDirection * projectileSpeed,
                 ForceMode.VelocityChange);
 
             projectile.transform.SetParent(
@@ -75,18 +71,12 @@ public class ShootProjectile : MonoBehaviour
             if (hit.collider.CompareTag("Enemy"))
             {
                 reticleImage.color = Color.Lerp
-                    (reticleImage.color, reticleEnemyColor, Time.deltaTime * 2);
-                reticleImage.transform.localScale = Vector3.Lerp(
-                    reticleImage.transform.localScale, new Vector3(0.7f, 0.7f, 1),
-                    Time.deltaTime * 2);
+                    (reticleImage.color, reticleEnemyColor, Time.deltaTime * 5);
             }
             else
             {
                 reticleImage.color = Color.Lerp
-                    (reticleImage.color, originalReticleColor, Time.deltaTime * 2);
-                reticleImage.transform.localScale = Vector3.Lerp(
-                    reticleImage.transform.localScale, Vector3.one,
-                    Time.deltaTime * 2);
+                    (reticleImage.color, originalReticleColor, Time.deltaTime * 5);
             }
         }
     }
