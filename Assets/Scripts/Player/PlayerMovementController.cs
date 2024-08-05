@@ -70,10 +70,6 @@ public class PlayerMovementController : MonoBehaviour
         {
             ShopUIController.Toggle();
         }
-        else if (Input.GetKeyDown(KeyCode.I))
-        {
-            InventoryUIController.Toggle();
-        }
     }
 
     void HandleKiosk()

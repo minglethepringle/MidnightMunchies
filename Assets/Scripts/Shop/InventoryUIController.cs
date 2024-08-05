@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,13 +8,14 @@ public class InventoryUIController : MonoBehaviour
 {
     private Transform container;
     private Transform inventoryItemTemplate;
-
-    private static PlayerLookController playerLookController;
+    private Transform emptyInventoryItemTemplate;
     private static InventoryUIController instance;
 
-    private Text alert;
 
     private Dictionary<Item.ItemType, GameObject> inventoryItems = new Dictionary<Item.ItemType, GameObject>();
+    private List<Item.ItemType> orderedItems = new List<Item.ItemType>();
+    private GameObject[] emptySlots = new GameObject[10];
+    private GameObject[] filledSlots = new GameObject[] { };
 
     private void Awake()
     {
@@ -29,164 +31,105 @@ public class InventoryUIController : MonoBehaviour
 
         container = transform.Find("Container");
         inventoryItemTemplate = container.Find("ItemTemplate");
-        
-        Transform alertTransform = transform.Find("Alert");
-        if (alertTransform != null)
-        {
-            alert = alertTransform.GetComponent<Text>();
-            if (alert == null)
-            {
-                Debug.LogWarning("Alert Text component not found on Alert object.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Alert object not found in InventoryUIController.");
-        }
+        emptyInventoryItemTemplate = container.Find("EmptyItemTemplate");
     }
 
     private void Start()
     {
-        if (playerLookController == null)
-        {
-            playerLookController = Camera.main.GetComponent<PlayerLookController>();
-        }
-
-        UpdateInventoryUI();
-
-        Hide();
+        MakeInitialInventory();
     }
 
-    public void UpdateInventoryUI()
+    private void Update()
     {
-        inventoryItemTemplate.gameObject.SetActive(false);
-        
-        foreach (var item in inventoryItems.Values)
+        for (int i = 0; i < orderedItems.Count && i < 9; i++)
         {
-            Destroy(item);
-        }
-        inventoryItems.Clear();
-        foreach (Transform child in container)
-        {
-            if (child.gameObject.activeSelf)
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
-                Destroy(child.gameObject);
+                ActivateItem(orderedItems[i]);
             }
         }
 
-        Dictionary<Item.ItemType, int> allItems = Inventory.GetAllItems();
-
-        int index = 0;
-        foreach (var kvp in allItems)
+        foreach (KeyValuePair<Item.ItemType, int> entry in Inventory.GetAllItems())
         {
-            CreateInventoryItemUI(kvp.Key, kvp.Value);
-            index++;
+            if (entry.Value > 0)
+            {
+                if (inventoryItems.ContainsKey(entry.Key))
+                {
+                    inventoryItems[entry.Key].transform.Find("ItemQuantity").GetComponent<Text>().text = 'x' + entry.Value.ToString();
+                }
+                else
+                {
+                    orderedItems.Add(entry.Key);
+                    CreateInventoryItemUI(entry.Key, entry.Value, orderedItems.Count - 1);
+                }
+            }
+            else
+            {
+                if (inventoryItems.ContainsKey(entry.Key))
+                {
+                    Destroy(inventoryItems[entry.Key]);
+                    inventoryItems.Remove(entry.Key);
+                }
+            }
         }
     }
 
-    private void CreateInventoryItemUI(Item.ItemType itemType, int count)
+    private void CreateInventoryItemUI(Item.ItemType itemType, int count, int index)
     {
         Transform inventoryItemTransform = Instantiate(inventoryItemTemplate, container);
         RectTransform inventoryItemRectTransform = inventoryItemTransform.GetComponent<RectTransform>();
 
-        float inventoryItemHeight = 30f;
+        float inventoryItemWidth = 35f;
         inventoryItemRectTransform.anchoredPosition = new Vector2(
-            -50,
-            60 + (-inventoryItemHeight * container.childCount)
+            1 * index * inventoryItemWidth,
+            0
         );
 
         Text itemName = inventoryItemTransform.Find("ItemName").GetComponent<Text>();
-        Text itemPrice = inventoryItemTransform.Find("ItemQuantity").GetComponent<Text>();
+        Text itemQuantity = inventoryItemTransform.Find("ItemQuantity").GetComponent<Text>();
+        // Text itemHotkey = inventoryItemTransform.Find("ItemHotkey").GetComponent<Text>();
 
         itemName.text = Item.GetName(itemType);
-        itemPrice.text = 'x' + count.ToString();
+        itemQuantity.text = 'x' + count.ToString();
+        // itemHotkey.text = (index + 1).ToString();
 
         inventoryItemTransform.gameObject.SetActive(true);
 
-        // Button button = inventoryItemTransform.GetComponent<Button>();
-        // button.onClick.AddListener(() =>
-        // {
-        //     TryToBuyItem(itemType);
-        // });
+        inventoryItems[itemType] = inventoryItemTransform.gameObject;
 
-        // inventoryItems[itemType] = inventoryItemTransform.gameObject;
-
-        // UpdateItemUI(itemType);
+        filledSlots[index] = inventoryItemTransform.gameObject;
+        emptySlots[index].SetActive(false);
     }
 
-    private void SetAlertText(string text)
+    private GameObject CreateEmptyInventoryItemUI(int index)
     {
-        if (alert == null)
-        {
-            Debug.LogWarning("Cannot set alert text: Alert Text component is null.");
-            return;
-        }
+        Transform inventoryItemTransform = Instantiate(emptyInventoryItemTemplate, container);
+        RectTransform inventoryItemRectTransform = inventoryItemTransform.GetComponent<RectTransform>();
 
-        alert.text = text;
-        StartCoroutine(RemoveAlertText());
+        float inventoryItemWidth = 35f;
+        inventoryItemRectTransform.anchoredPosition = new Vector2(
+            1 * index * inventoryItemWidth,
+            0
+        );
+
+        inventoryItemTransform.gameObject.SetActive(true);
+
+        return inventoryItemTransform.gameObject;
     }
 
-    private IEnumerator RemoveAlertText()
+    private void ActivateItem(Item.ItemType itemType)
     {
-        if (alert == null) yield break;
-
-        yield return new WaitForSeconds(2);
-        alert.text = "";
+        // Implement the logic for activating the item here
+        Debug.Log($"Activated item: {Item.GetName(itemType)}");
     }
 
-    public static void Hide()
+    private void MakeInitialInventory()
     {
-        if (instance != null)
+        Debug.Log("Making initial inventory");
+        for (int index = 0; index < 10; index++)
         {
-            instance.gameObject.SetActive(false);
-            if (playerLookController != null)
-            {
-                playerLookController.SetIsViewingInventory(false);
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-            else
-            {
-                Debug.LogWarning("PlayerLookController is null. Cannot set viewing inventory state.");
-            }
-        }
-    }
-
-    public static void Show()
-    {
-        if (instance != null)
-        {
-            instance.gameObject.SetActive(true);
-            instance.UpdateInventoryUI();
-            if (playerLookController != null)
-            {
-                playerLookController.SetIsViewingInventory(true);
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.Confined;
-            }
-            else
-            {
-                Debug.LogWarning("PlayerLookController is null. Cannot set viewing inventory state.");
-            }
-        }
-    }
-
-    public static void Toggle()
-    {
-        if (instance != null)
-        {
-            if (instance.gameObject.activeSelf)
-            {
-                Hide();
-            }
-            else
-            {
-                Show();
-            }
-        }
-        else
-        {
-            Debug.LogWarning("InventoryUIController instance is null. Cannot toggle.");
+            Debug.Log($"Creating empty inventory item at index {index}");
+            emptySlots[index] = CreateEmptyInventoryItemUI(index);
         }
     }
 }
