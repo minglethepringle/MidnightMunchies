@@ -21,6 +21,14 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         isGameOver = false;
+        StartCoroutine(RecordCheckpointAfterStart());
+    }
+
+    private IEnumerator RecordCheckpointAfterStart()
+    {
+        yield return new WaitForEndOfFrame();
+
+        PlayerCheckpoint.RecordCheckpoint();
     }
 
     // Update is called once per frame
@@ -32,13 +40,22 @@ public class LevelManager : MonoBehaviour
 
     public void LevelLost()
     {
-        isGameOver = true;
         gameText.text = "GAME OVER!";
         gameText.gameObject.SetActive(true);
 
         //AudioSource.PlayClipAtPoint(gameOverSFX, Camera.main.transform.position);
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        CharacterController controller = player.GetComponent<CharacterController>();
+        controller.enabled = false;
+        Invoke("RestartAtCheckpoint", 2);
+        
 
-        Invoke("LoadCurrentLevel", 2);
+    }
+
+    public void RestartAtCheckpoint()
+    {
+        PlayerCheckpoint.RevertToCheckpoint();
+        gameText.gameObject.SetActive(false);
 
     }
 
