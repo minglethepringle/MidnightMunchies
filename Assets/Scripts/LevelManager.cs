@@ -11,17 +11,26 @@ public class LevelManager : MonoBehaviour
 
     public AudioClip gameOverSFX;
     public AudioClip gameWonSFX;
+    public AudioClip backgroundMusic;
 
     public static bool isGameOver = false;
 
     public string nextLevel;
 
+    private AudioSource backgroundMusicSource;
 
     // Start is called before the first frame update
     void Start()
     {
         isGameOver = false;
         StartCoroutine(RecordCheckpointAfterStart());
+
+        // set up and play background music
+        backgroundMusicSource = gameObject.AddComponent<AudioSource>();
+        backgroundMusicSource.clip = backgroundMusic;
+        backgroundMusicSource.loop = true;
+        backgroundMusicSource.playOnAwake = false;
+        backgroundMusicSource.Play();
     }
 
     private IEnumerator RecordCheckpointAfterStart()
