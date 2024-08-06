@@ -92,4 +92,14 @@ public class Item
     {
         return purchasedItems.Contains(itemType);
     }
+
+    public static HashSet<ItemType> GetItemsPurchased()
+    {
+        return purchasedItems;
+    }
+
+    public static void SetItemsPurchased(HashSet<ItemType> items)
+    {
+        purchasedItems = items;
+    }
 }

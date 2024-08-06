@@ -1,219 +1,82 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
+using Cursor = UnityEngine.Cursor;
 
+/**
+ * IMPORTANT: Attach this to every individual kiosk UI object as each kiosk will have its own UI.
+ */
 public class KioskUIController : MonoBehaviour
 {
-    private Transform container;
-    private Transform shopItemTemplate;
-
-    private static PlayerLookController playerLookController;
-    private static KioskUIController instance;
-
-    private Text alert;
-
-    private Dictionary<Item.ItemType, GameObject> shopItems = new Dictionary<Item.ItemType, GameObject>();
-
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        container = transform.Find("Container");
-        shopItemTemplate = container.Find("ShopItemTemplate");
-        
-        Transform alertTransform = transform.Find("Alert");
-        if (alertTransform != null)
-        {
-            alert = alertTransform.GetComponent<Text>();
-            if (alert == null)
-            {
-                Debug.LogWarning("Alert Text component not found on Alert object.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Alert object not found in ShopUIController.");
-        }
-    }
+    public Button[] itemButtons;
+    public Button orderButton;
+    public GameObject cartContent;
+    public GameObject cartItemPrefab;
+    public Text totalText;
+    public AudioClip orderSound;
+    
+    private int total = 0;
 
     private void Start()
     {
-        if (playerLookController == null)
+        foreach (Button itemButton in itemButtons)
         {
-            playerLookController = Camera.main.GetComponent<PlayerLookController>();
-        }
-
-        CreateItemButton(Item.ItemType.Subway1);
-        CreateItemButton(Item.ItemType.Subway2);
-        CreateItemButton(Item.ItemType.Subway3);
-        CreateItemButton(Item.ItemType.Subway4);
-        CreateItemButton(Item.ItemType.Subway5);
-        CreateItemButton(Item.ItemType.Subway6);
-        CreateItemButton(Item.ItemType.Subway7);
-        CreateItemButton(Item.ItemType.Subway8);
-
-        Hide();
-    }
-
-    private void CreateItemButton(Item.ItemType itemType)
-    {
-        Transform shopItemTransform = Instantiate(shopItemTemplate, container);
-        RectTransform shopItemRectTransform = shopItemTransform.GetComponent<RectTransform>();
-
-        float shopItemHeight = 30f;
-        shopItemRectTransform.anchoredPosition = new Vector2(
-            -50,
-            60 + (-shopItemHeight * container.childCount)
-        );
-
-        Text itemName = shopItemTransform.Find("ItemName").GetComponent<Text>();
-        Text itemPrice = shopItemTransform.Find("ItemPrice").GetComponent<Text>();
-        Text itemSold = shopItemTransform.Find("ItemSold").GetComponent<Text>();
-
-        itemName.text = Item.GetName(itemType);
-        itemPrice.text = '$' + Item.GetCost(itemType).ToString();
-        itemSold.text = "SOLD";
-
-        itemSold.gameObject.SetActive(false);
-
-        shopItemTransform.gameObject.SetActive(true);
-
-        Button button = shopItemTransform.GetComponent<Button>();
-        button.onClick.AddListener(() =>
-        {
-            TryToBuyItem(itemType);
-        });
-
-        shopItems[itemType] = shopItemTransform.gameObject;
-
-        UpdateItemUI(itemType);
-    }
-
-    private void TryToBuyItem(Item.ItemType itemType)
-    {
-        if (Item.IsItemPurchased(itemType))
-        {
-            SetAlertText("Item already purchased");
-            return;
-        }
-
-        int cost = Item.GetCost(itemType);
-        if (PlayerBankAccount.GetCurrentBalance() >= cost)
-        {
-            PlayerBankAccount.SubtractHuskyDollars(cost);
-            Item.PurchaseItem(itemType);
-            SetAlertText("Item bought: " + Item.GetName(itemType));
-            UpdateItemUI(itemType);
-        }
-        else
-        {
-            SetAlertText("Not enough money");
-        }
-    }
-
-    private void UpdateItemUI(Item.ItemType itemType)
-    {
-        if (shopItems.TryGetValue(itemType, out GameObject shopItem))
-        {
-            Text itemPrice = shopItem.transform.Find("ItemPrice").GetComponent<Text>();
-            Text itemSold = shopItem.transform.Find("ItemSold").GetComponent<Text>();
-
-            if (Item.IsItemPurchased(itemType))
-            {
-                itemPrice.gameObject.SetActive(false);
-                itemSold.gameObject.SetActive(true);
-            }
-            else
-            {
-                itemPrice.gameObject.SetActive(true);
-                itemSold.gameObject.SetActive(false);
-            }
-        }
-    }
-
-    private void SetAlertText(string text)
-    {
-        if (alert == null)
-        {
-            Debug.LogWarning("Cannot set alert text: Alert Text component is null.");
-            return;
-        }
-
-        alert.text = text;
-        StartCoroutine(RemoveAlertText());
-    }
-
-    private IEnumerator RemoveAlertText()
-    {
-        if (alert == null) yield break;
-
-        yield return new WaitForSeconds(2);
-        alert.text = "";
-    }
-
-    public static void Hide()
-    {
-        if (instance != null)
-        {
-            instance.gameObject.SetActive(false);
-            if (playerLookController != null)
-            {
-                playerLookController.SetIsShopping(false);
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Confined;
-            }
-            else
-            {
-                Debug.LogWarning("PlayerLookController is null. Cannot set shopping state.");
-            }
-        }
-    }
-
-    public static void Show()
-    {
-        if (instance != null)
-        {
-            instance.gameObject.SetActive(true);
-            if (playerLookController != null)
-            {
-                playerLookController.SetIsShopping(true);
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-            }
-            else
-            {
-                Debug.LogWarning("PlayerLookController is null. Cannot set shopping state.");
-            }
-        }
-    }
-
-    public static void Toggle()
-    {
-        if (instance != null)
-        {
-            if (instance.gameObject.activeSelf)
-            {
-                Hide();
-            }
-            else
-            {
-                Show();
-            }
-        }
-        else
-        
-        {
-            Debug.LogWarning("ShopUIController instance is null. Cannot toggle.");
+            // Get the item name from the button text
+            string itemName = itemButton.GetComponentInChildren<Text>().text;
+            itemButton.onClick.AddListener(() => AddToCart(itemName));
         }
         
+        orderButton.onClick.AddListener(PlaceOrder);
+    }
+    
+    private void AddToCart(string itemName)
+    {
+        // Parse out name and price
+        string name = itemName.Split(":")[0].Trim();
+        int price = int.Parse(itemName.Split("$")[1].Trim());
+        
+        // Add cart item to visual scroll view
+        GameObject cartItem = Instantiate(cartItemPrefab, cartContent.transform);
+        cartItem.GetComponentInChildren<Text>().text = name;
+        
+        // Update total
+        total += price;
+        totalText.text = "$" + total;
+    }
+
+    private void PlaceOrder()
+    {
+        PlayerBankAccount.SubtractHuskyDollars(total);
+        
+        // Clear cart
+        foreach (Transform child in cartContent.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        
+        total = 0;
+        totalText.text = "$" + total;
+
+        PlayerCheckpoint.RecordCheckpoint();
+        
+        AudioSource.PlayClipAtPoint(orderSound, Camera.main.transform.position);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour
 {
+    public static bool locked = false;
+    
     public float moveSpeed = 6f;
     public float jumpHeight = 1f;
     public float gravity = 9.81f;
@@ -24,7 +26,9 @@ public class PlayerMovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleUI();
+        if (locked) return;
+        
+        HandleShop();
 
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
@@ -64,16 +68,11 @@ public class PlayerMovementController : MonoBehaviour
         controller.Move(moveDirection * Time.deltaTime);
     }
 
-    void HandleUI()
+    void HandleShop()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(Controls.SHOP))
         {
             ShopUIController.Toggle();
         }
-    }
-
-    void HandleKiosk()
-    {
-        KioskUIController.Toggle();
     }
 }

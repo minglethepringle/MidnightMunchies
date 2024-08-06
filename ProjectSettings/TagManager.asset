@@ -7,12 +7,12 @@ TagManager:
   - Enemy
   - Projectile
   - ProjectileParent
-  - PistolBarrel
   - Bullet
   - MoneyUI
   - Money
   - ShopUI
-  - InventoryUI
+  - Weapon
+  - Crosshair
   layers:
   - Default
   - TransparentFX

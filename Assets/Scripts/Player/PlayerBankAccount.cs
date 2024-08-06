@@ -58,7 +58,13 @@ public class PlayerBankAccount : MonoBehaviour
         return currentBalance;
     }
 
-    private static void UpdateBalanceText() {
+    public static void SetCurrentBalance(int balance)
+    {
+        currentBalance = balance;
+        Debug.Log("balance: " + currentBalance);
+    }
+
+    public static void UpdateBalanceText() {
         balanceText.text = "$" + currentBalance;
         balanceTextShadow.text = "$" + currentBalance;
     }
