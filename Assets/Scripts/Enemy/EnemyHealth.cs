@@ -83,4 +83,8 @@ public class EnemyHealth : MonoBehaviour
         float distance = Vector3.Distance(player.transform.position, transform.position);
         return distance;
     }
+
+    public bool getIsDead(){
+        return isDead;
+    }
 }

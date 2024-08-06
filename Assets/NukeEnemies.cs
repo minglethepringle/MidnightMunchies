@@ -24,7 +24,11 @@ public class NukeEnemies : MonoBehaviour
         if (other.gameObject.CompareTag("Nuke")) {
             foreach (GameObject enemy in enemies)
             {
-                enemy.GetComponent<EnemyHealth>().TakeDamage(100000);
+              EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+              if (!enemyHealth.getIsDead()){
+                enemyHealth.TakeDamage(100000);
+              }
+                
             }
             Destroy(other.gameObject);
         }
