@@ -317,6 +317,7 @@ GameObject:
   m_Component:
   - component: {fileID: 426218}
   - component: {fileID: 9576792}
+  - component: {fileID: 8166076696924502794}
   m_Layer: 0
   m_Name: Modern Russian AR
   m_TagString: Untagged
@@ -362,6 +363,24 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8166076696924502794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17fd4a29486e14e9f862afaa715040cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 2147895002730076875, guid: 12ec307e4794d5343818153e0717ee71, type: 3}
+  projectileSpeed: 100
+  gunSFX1: {fileID: 8300000, guid: 32e363d117659420f9bc755116a32a10, type: 3}
+  gunSFX2: {fileID: 8300000, guid: 9fa8d84e4858d49f99547c020241d3bd, type: 3}
+  bulletOffset: {x: 0.2, y: -0.1, z: 0}
+  muzzleFlash: {fileID: 6673202104378833337, guid: 7e1d1ee4c5ce54be6a49ce439d1e5432, type: 3}
 --- !u!1 &169046
 GameObject:
   m_ObjectHideFlags: 0

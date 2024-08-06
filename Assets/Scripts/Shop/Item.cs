@@ -8,6 +8,7 @@ public class Item
 
     public enum ItemType
     {
+        Pistol,
         AssaultRifle,
         Shotgun,
         RocketLauncher,
@@ -32,6 +33,7 @@ public class Item
     {
         switch (itemType)
         {
+            case ItemType.Pistol: return 0;
             case ItemType.AssaultRifle: return 50;
             case ItemType.Shotgun: return 40;
             case ItemType.RocketLauncher: return 100;
@@ -57,6 +59,7 @@ public class Item
     {
         switch (itemType)
         {
+            case ItemType.Pistol: return "Pistol";
             case ItemType.AssaultRifle: return "Assault Rifle";
             case ItemType.Shotgun: return "Shotgun";
             case ItemType.RocketLauncher: return "Rocket Launcher";
@@ -88,5 +91,15 @@ public class Item
     public static bool IsItemPurchased(ItemType itemType)
     {
         return purchasedItems.Contains(itemType);
+    }
+
+    public static HashSet<ItemType> GetItemsPurchased()
+    {
+        return purchasedItems;
+    }
+
+    public static void SetItemsPurchased(HashSet<ItemType> items)
+    {
+        purchasedItems = items;
     }
 }

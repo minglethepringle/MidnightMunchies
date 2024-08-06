@@ -7,7 +7,7 @@ public class PlayerHealth : MonoBehaviour
 {
     public float startingHealth = 100;
 
-    private float currentHealth;
+    private static float currentHealth;
     
     // public AudioClip deathSound;
 
@@ -77,5 +77,16 @@ public class PlayerHealth : MonoBehaviour
         FindObjectOfType<LevelManager>().LevelLost();
 
         // Destroy(gameObject, );
+    }
+
+    public static float GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public static void SetCurrentHealth(float health)
+    {
+        currentHealth = health;
+        Debug.Log("Health: " + currentHealth);
     }
 }
