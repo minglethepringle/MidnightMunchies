@@ -60,6 +60,9 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(float damage) {
         currentHealth -= damage;
+        if (currentHealth < 0){
+            currentHealth = 0;
+        }
         healthSlider.value = currentHealth;
 
         if (currentHealth <= 0) {
@@ -86,5 +89,9 @@ public class EnemyHealth : MonoBehaviour
         GameObject player = GameObject.FindWithTag("Player");
         float distance = Vector3.Distance(player.transform.position, transform.position);
         return distance;
+    }
+
+    public bool getIsDead(){
+        return isDead;
     }
 }
