@@ -31,6 +31,18 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public static void RemoveItem(Item.ItemType itemType)
+    {
+        if (instance.inventoryItems.ContainsKey(itemType))
+        {
+            instance.inventoryItems[itemType]--;
+            if (instance.inventoryItems[itemType] <= 0)
+            {
+                instance.inventoryItems.Remove(itemType);
+            }
+        }
+    }
+
     public static bool HasItem(Item.ItemType itemType)
     {
         return instance.inventoryItems.ContainsKey(itemType) && instance.inventoryItems[itemType] > 0;
