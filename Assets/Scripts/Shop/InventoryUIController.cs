@@ -17,6 +17,8 @@ public class InventoryUIController : MonoBehaviour
     private GameObject[] emptySlots = new GameObject[10];
     private GameObject[] filledSlots = new GameObject[] { };
 
+    private Item.ItemType activeItem;
+
     private void Awake()
     {
         if (instance == null)
@@ -119,8 +121,28 @@ public class InventoryUIController : MonoBehaviour
 
     private void ActivateItem(Item.ItemType itemType)
     {
-        // Implement the logic for activating the item here
         Debug.Log($"Activated item: {Item.GetName(itemType)}");
+
+        if (itemType == activeItem)
+        {
+            PlayerWeaponManager.SwitchToPistol();
+            activeItem = Item.ItemType.Subway8;
+            return;
+        }
+        else if (itemType == Item.ItemType.AssaultRifle)
+        {
+            PlayerWeaponManager.SwitchToAssaultRifle();
+        }
+        else if (itemType == Item.ItemType.Shotgun)
+        {
+            PlayerWeaponManager.SwitchToShotgun();
+        }
+        else if (itemType == Item.ItemType.RocketLauncher)
+        {
+            PlayerWeaponManager.SwitchToRocketLauncher();
+        }
+
+        activeItem = itemType;
     }
 
     private void MakeInitialInventory()
