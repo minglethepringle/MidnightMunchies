@@ -218,15 +218,11 @@ public class InventoryUIController : MonoBehaviour
     {
         Debug.Log($"Activated item: {Item.GetName(itemType)}");
 
-        if (itemType == activeItem)
-        {
-            PlayerWeaponManager.SwitchToPistol();
-            activeItem = Item.ItemType.Subway8;
-            return;
-        }
-
         switch (itemType)
         {
+            case Item.ItemType.Pistol:
+                PlayerWeaponManager.SwitchToPistol();
+                break;
             case Item.ItemType.AssaultRifle:
                 PlayerWeaponManager.SwitchToAssaultRifle();
                 break;

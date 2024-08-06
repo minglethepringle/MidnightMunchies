@@ -17,6 +17,8 @@ public class Inventory : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        AddItem(Item.ItemType.Pistol);
     }
 
     public static void AddItem(Item.ItemType itemType)
