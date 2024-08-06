@@ -61,7 +61,7 @@ public class KioskUIController : MonoBehaviour
         total = 0;
         totalText.text = "$" + total;
 
-        PlayerCheckpoint.RecordCheckpoint();
+        LevelManager.LevelBeat();
         
         AudioSource.PlayClipAtPoint(orderSound, Camera.main.transform.position);
     }

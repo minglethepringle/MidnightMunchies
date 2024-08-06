@@ -13,11 +13,15 @@ public class LevelManager : MonoBehaviour
     public AudioClip gameWonSFX;
     public AudioClip backgroundMusic;
 
+    [Header("Level Management")]
+    public List<GameObject> levelSpawners;
+
+    private static List<GameObject> staticLevelSpawners;
+
     public static bool isGameOver = false;
 
-    public string nextLevel;
-
     private AudioSource backgroundMusicSource;
+    private static int levelIndex = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -29,8 +33,12 @@ public class LevelManager : MonoBehaviour
         backgroundMusicSource = gameObject.AddComponent<AudioSource>();
         backgroundMusicSource.clip = backgroundMusic;
         backgroundMusicSource.loop = true;
-        backgroundMusicSource.playOnAwake = false;
+        backgroundMusicSource.playOnAwake = true;
         backgroundMusicSource.Play();
+        
+        staticLevelSpawners = new List<GameObject>(levelSpawners);
+        
+        SpawnLevelEnemies();
     }
 
     private IEnumerator RecordCheckpointAfterStart()
@@ -45,7 +53,11 @@ public class LevelManager : MonoBehaviour
     {
 
     }
-
+    
+    private static void SpawnLevelEnemies()
+    {
+        staticLevelSpawners[levelIndex].GetComponent<EnemySpawner>().Spawn();
+    }
 
     public void LevelLost()
     {
@@ -57,44 +69,20 @@ public class LevelManager : MonoBehaviour
         PlayerLookController.locked = true;
 
         Invoke("RestartAtCheckpoint", 2);
-        
-
     }
 
     public void RestartAtCheckpoint()
     {
         PlayerCheckpoint.RevertToCheckpoint();
         gameText.gameObject.SetActive(false);
-
     }
 
-    /*public void LevelBeat()
+    public static void LevelBeat()
     {
-        Debug.Log("level complete");
-        isGameOver = true;
-        gameText.text = "FOOD ORDERED!";
-        gameText.gameObject.SetActive(true);
+        PlayerCheckpoint.RecordCheckpoint();
+        
+        levelIndex++;
 
-        //AudioSource.PlayClipAtPoint(gameWonSFX, Camera.main.transform.position);
-
-        if (!string.IsNullOrEmpty(nextLevel))
-        {
-            Invoke("LoadNextLevel", 2);
-        }
-    }
-
-    void LoadNextLevel()
-    {
-        SceneManager.LoadScene(nextLevel);
-    }*/
-
-    void LoadCurrentLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    void SaveCheckPoint()
-    {
-        //store player items/dollars
+        SpawnLevelEnemies();
     }
 }
