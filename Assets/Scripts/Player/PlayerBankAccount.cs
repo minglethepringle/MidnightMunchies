@@ -38,6 +38,16 @@ public class PlayerBankAccount : MonoBehaviour
             AddHuskyDollars(10);
             Destroy(other.gameObject);
         }
+
+        if (other.gameObject.CompareTag("Moneyx2")) {
+            AddHuskyDollars(20);
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("Money1Dollar")) {
+            AddHuskyDollars(1);
+            Destroy(other.gameObject);
+        }
     }
 
     public static void AddHuskyDollars(int amount) {
