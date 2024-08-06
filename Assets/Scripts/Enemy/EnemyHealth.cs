@@ -51,7 +51,8 @@ public class EnemyHealth : MonoBehaviour
         }
         
         if (other.CompareTag("Bullet")) {
-            TakeDamage(projectileDamage);
+            float multiplier = PlayerPowerups.isMoDamageActive ? 1.25f : 1f;
+            TakeDamage(projectileDamage * multiplier);
         }
     }
 
