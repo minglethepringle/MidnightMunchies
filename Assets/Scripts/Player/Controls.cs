@@ -9,4 +9,5 @@ public class Controls : MonoBehaviour
 	public static KeyCode ENTER_ORDER = KeyCode.F;
 	public static KeyCode EXIT_ORDER = KeyCode.E;
 	public static KeyCode SHOP = KeyCode.Tab;
+	public static KeyCode NPC_INTERACT = KeyCode.F;
 }
