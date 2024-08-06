@@ -15,6 +15,8 @@ public class EnemyHealth : MonoBehaviour
 
     public GameObject moneyPrefab;
 
+    public AudioClip deathSound;
+
     private Animator animator;
 
     private bool isDead;
@@ -58,6 +60,9 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(float damage) {
         currentHealth -= damage;
+        if (currentHealth < 0){
+            currentHealth = 0;
+        }
         healthSlider.value = currentHealth;
 
         if (currentHealth <= 0) {
@@ -68,17 +73,25 @@ public class EnemyHealth : MonoBehaviour
     void Die() {
         isDead = true;
         animator.SetBool("dieNow", true);
+        AudioSource.PlayClipAtPoint(deathSound, transform.position);
+        
         Destroy(healthSlider.gameObject);
         Destroy(gameObject.GetComponent<BoxCollider>());
+        Destroy(gameObject.GetComponent<AudioSource>());
 
         Vector3 moneyPosition = transform.position;
         moneyPosition.y = 1;
         Instantiate(moneyPrefab, moneyPosition, Quaternion.identity);
+
     }
 
     private float CalculateDistanceFromPlayer() {
         GameObject player = GameObject.FindWithTag("Player");
         float distance = Vector3.Distance(player.transform.position, transform.position);
         return distance;
+    }
+
+    public bool getIsDead(){
+        return isDead;
     }
 }

@@ -13,6 +13,11 @@ TagManager:
   - ShopUI
   - Weapon
   - Crosshair
+  - PistolBarrel
+  - Moneyx2
+  - InvincibilityStar
+  - Money1Dollar
+  - Nuke
   layers:
   - Default
   - TransparentFX
