@@ -113,6 +113,7 @@ public class ShopUIController : MonoBehaviour
         {
             PlayerBankAccount.SubtractHuskyDollars(cost);
             Item.PurchaseItem(itemType);
+            Inventory.AddItem(itemType);
             SetAlertText("Item bought: " + Item.GetName(itemType));
             UpdateItemUI(itemType);
         }
@@ -171,6 +172,7 @@ public class ShopUIController : MonoBehaviour
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
+                PlayerLookController.locked = false;
             }
             else
             {
@@ -188,6 +190,7 @@ public class ShopUIController : MonoBehaviour
             {
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.Confined;
+                PlayerLookController.locked = true;
             }
             else
             {
