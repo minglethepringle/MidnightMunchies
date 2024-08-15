@@ -37,6 +37,7 @@ public class InventoryUIController : MonoBehaviour
 
     private void Start()
     {
+        Item.DebugCheckIcons();
         MakeInitialInventory();
     }
 
@@ -178,10 +179,12 @@ public class InventoryUIController : MonoBehaviour
         Transform inventoryItemTransform = Instantiate(inventoryItemTemplate, container);
         inventoryItemTransform.SetSiblingIndex(container.childCount - index - 1);
 
-        Text itemName = inventoryItemTransform.Find("ItemName").GetComponent<Text>();
+        // Text itemName = inventoryItemTransform.Find("ItemName").GetComponent<Text>();
         Text itemQuantity = inventoryItemTransform.Find("ItemQuantity").GetComponent<Text>();
-
-        itemName.text = Item.GetName(itemType);
+        Image iconImage = inventoryItemTransform.Find("ItemIcon").GetComponent<Image>();
+        
+        iconImage.sprite = Item.GetIcon(itemType);
+        // itemName.text = Item.GetName(itemType);
         itemQuantity.text = 'x' + count.ToString();
 
         inventoryItemTransform.gameObject.SetActive(true);
