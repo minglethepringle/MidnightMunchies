@@ -176,13 +176,7 @@ public class InventoryUIController : MonoBehaviour
     private void CreateInventoryItemUI(Item.ItemType itemType, int count, int index)
     {
         Transform inventoryItemTransform = Instantiate(inventoryItemTemplate, container);
-        RectTransform inventoryItemRectTransform = inventoryItemTransform.GetComponent<RectTransform>();
-
-        float inventoryItemWidth = 35f;
-        inventoryItemRectTransform.anchoredPosition = new Vector2(
-            index * inventoryItemWidth,
-            0
-        );
+        inventoryItemTransform.SetSiblingIndex(container.childCount - index - 1);
 
         Text itemName = inventoryItemTransform.Find("ItemName").GetComponent<Text>();
         Text itemQuantity = inventoryItemTransform.Find("ItemQuantity").GetComponent<Text>();
