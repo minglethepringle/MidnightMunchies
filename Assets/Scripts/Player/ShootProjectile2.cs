@@ -26,18 +26,29 @@ public class ShootProjectile2 : MonoBehaviour
     {
         if (PlayerLookController.locked || PlayerMovementController.locked) return;
 
-        if (Input.GetButtonDown("Fire1"))
+        if (!PauseMenuBehavior.isGamePaused)
         {
-            if (currentWeapon != null)
+            if (Input.GetButtonDown("Fire1"))
             {
-                currentWeapon.Fire(transform.position, transform.rotation);
+                if (currentWeapon != null)
+                {
+                    currentWeapon.Fire(transform.position, transform.rotation);
+                }
             }
         }
     }
 
     private void FixedUpdate()
     {
-        ReticleEffect();
+        if (!PauseMenuBehavior.isGamePaused)
+        {
+            reticleImage.enabled = true;
+            ReticleEffect();
+        }
+        else
+        {
+            reticleImage.enabled = false;
+        }
     }
 
     void ReticleEffect()
