@@ -13,6 +13,8 @@ public class ShootProjectile2 : MonoBehaviour
 
     public Weapon currentWeapon;
 
+    public Throwable currentThrowable;
+
     private float lastFireTime = 0f;
 
     private const float ASSAULT_RIFLE_FIRE_RATE = 0.2f; // 5 shots per second (1 / 5 = 0.2 seconds between shots)
@@ -30,31 +32,45 @@ public class ShootProjectile2 : MonoBehaviour
     void Update()
     {
         if (PlayerLookController.locked || PlayerMovementController.locked) return;
-        
-        currentWeapon = PlayerWeaponManager.currentWeapon.GetComponent<Weapon>();
+        if (!PlayerWeaponManager.currentWeapon) return;
+
+        Weapon currentWeapon = PlayerWeaponManager.currentWeapon.GetComponent<Weapon>();
+        Throwable currentThrowable = PlayerWeaponManager.currentWeapon.GetComponent<Throwable>();
 
         if (currentWeapon != null && currentWeapon.isActiveAndEnabled)
         {
-            if (currentWeapon.hasContinousFire)
+            HandleWeaponFiring(currentWeapon);
+        }
+        else if (currentThrowable != null && currentThrowable.isActiveAndEnabled)
+        {
+            HandleThrowableThrowing(currentThrowable);
+        }
+    }
+
+    private void HandleWeaponFiring(Weapon weapon)
+    {
+        if (weapon.hasContinousFire)
+        {
+            if (Input.GetButton("Fire1") && Time.time - lastFireTime >= ASSAULT_RIFLE_FIRE_RATE)
             {
-                // Continuous firing for AssaultRifle when Fire1 is held down, with fire rate limit
-                if (Input.GetButton("Fire1"))
-                {
-                    if (Time.time - lastFireTime >= ASSAULT_RIFLE_FIRE_RATE)
-                    {
-                        currentWeapon.Fire(transform.position, transform.rotation);
-                        lastFireTime = Time.time;
-                    }
-                }
+                weapon.Fire(transform.position, transform.rotation);
+                lastFireTime = Time.time;
             }
-            else
+        }
+        else
+        {
+            if (Input.GetButtonDown("Fire1"))
             {
-                // Single shot for other weapons when Fire1 is pressed
-                if (Input.GetButtonDown("Fire1"))
-                {
-                    currentWeapon.Fire(transform.position, transform.rotation);
-                }
+                weapon.Fire(transform.position, transform.rotation);
             }
+        }
+    }
+
+    private void HandleThrowableThrowing(Throwable throwable)
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            throwable.Throw();
         }
     }
 
