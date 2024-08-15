@@ -80,8 +80,10 @@ public class ShopUIController : MonoBehaviour
         Text itemName = shopItemTransform.Find("ItemName").GetComponent<Text>();
         Text itemPrice = shopItemTransform.Find("ItemPrice").GetComponent<Text>();
         Text itemSold = shopItemTransform.Find("ItemSold").GetComponent<Text>();
+        Image iconImage = shopItemTransform.Find("ItemIcon").GetComponent<Image>();
 
         itemName.text = Item.GetName(itemType);
+        iconImage.sprite = Item.GetIcon(itemType);
         itemPrice.text = '$' + Item.GetCost(itemType).ToString();
         itemSold.text = "SOLD";
 

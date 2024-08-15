@@ -179,13 +179,10 @@ public class InventoryUIController : MonoBehaviour
         Transform inventoryItemTransform = Instantiate(inventoryItemTemplate, container);
         inventoryItemTransform.SetSiblingIndex(container.childCount - index - 1);
 
-        // Text itemName = inventoryItemTransform.Find("ItemName").GetComponent<Text>();
         Text itemQuantity = inventoryItemTransform.Find("ItemQuantity").GetComponent<Text>();
-        Image iconImage = inventoryItemTransform.Find("ItemIcon").GetComponent<Image>();
-        
-        iconImage.sprite = Item.GetIcon(itemType);
-        // itemName.text = Item.GetName(itemType);
         itemQuantity.text = 'x' + count.ToString();
+        Image iconImage = inventoryItemTransform.Find("ItemIcon").GetComponent<Image>();
+        iconImage.sprite = Item.GetIcon(itemType);
 
         inventoryItemTransform.gameObject.SetActive(true);
 
