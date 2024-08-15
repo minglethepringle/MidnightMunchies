@@ -142,23 +142,4 @@ public class Item
             default: return "unknown_icon";
         }
     }
-
-    public static void DebugCheckIcons()
-    {
-        Debug.Log("Checking icons...");
-        foreach (ItemType itemType in System.Enum.GetValues(typeof(ItemType)))
-        {
-            string iconName = GetIconName(itemType);
-            Sprite icon = Resources.Load<Sprite>("Icons/" + iconName);
-            
-            if (icon != null)
-            {
-                Debug.Log($"Icon for {itemType} loaded successfully. Path: Resources/Icons/{iconName}");
-            }
-            else
-            {
-                Debug.LogError($"Failed to load icon for {itemType}. Path: Resources/Icons/{iconName}");
-            }
-        }
-    }
 }

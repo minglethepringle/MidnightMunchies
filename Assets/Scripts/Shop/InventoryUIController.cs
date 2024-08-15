@@ -37,7 +37,6 @@ public class InventoryUIController : MonoBehaviour
 
     private void Start()
     {
-        Item.DebugCheckIcons();
         MakeInitialInventory();
     }
 

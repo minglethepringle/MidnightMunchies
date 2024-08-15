@@ -35,7 +35,7 @@ public class ShootProjectile2 : MonoBehaviour
 
         if (currentWeapon != null && currentWeapon.isActiveAndEnabled)
         {
-            if (currentWeapon.name == "AssaultRifle")
+            if (currentWeapon.hasContinousFire)
             {
                 // Continuous firing for AssaultRifle when Fire1 is held down, with fire rate limit
                 if (Input.GetButton("Fire1"))

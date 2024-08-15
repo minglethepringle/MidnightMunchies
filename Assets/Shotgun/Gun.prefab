@@ -46,12 +46,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17fd4a29486e14e9f862afaa715040cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 0}
-  projectileSpeed: 100
-  gunSFX1: {fileID: 0}
-  gunSFX2: {fileID: 0}
+  projectilePrefab: {fileID: 2707047686601396690, guid: 4b2c44a580bbf40678aaceb8b5ecf4a9, type: 3}
+  projectileSpeed: 300
+  gunSFX1: {fileID: 8300000, guid: f5d0f3800f1694c99a902ad41bc61a5c, type: 3}
+  gunSFX2: {fileID: 8300000, guid: f5d0f3800f1694c99a902ad41bc61a5c, type: 3}
   bulletOffset: {x: 0.2, y: -0.1, z: 0}
-  muzzleFlash: {fileID: 0}
+  muzzleFlash: {fileID: 198792769130808804, guid: 4543ab5e3d405ec40a8d4e9aa5165030, type: 3}
+  hasSpread: 1
+  spreadProjectileCount: 5
+  spreadAngle: 8
 --- !u!1 &185102
 GameObject:
   m_ObjectHideFlags: 0

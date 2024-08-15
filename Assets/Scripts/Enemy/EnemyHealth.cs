@@ -9,8 +9,6 @@ public class EnemyHealth : MonoBehaviour
 
     private float currentHealth;
 
-    public float projectileDamage = 10f;
-
     public Slider healthSlider;
 
     public GameObject moneyPrefab;
@@ -54,7 +52,7 @@ public class EnemyHealth : MonoBehaviour
         
         if (other.CompareTag("Bullet")) {
             float multiplier = PlayerPowerups.isMoDamageActive ? 1.25f : 1f;
-            TakeDamage(projectileDamage * multiplier);
+            TakeDamage(PlayerWeaponManager.CurrentWeaponDamage() * multiplier);
         }
     }
 
