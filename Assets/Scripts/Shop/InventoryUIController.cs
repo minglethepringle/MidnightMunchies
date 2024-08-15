@@ -226,12 +226,24 @@ public class InventoryUIController : MonoBehaviour
             case Item.ItemType.RocketLauncher:
                 PlayerWeaponManager.SwitchToRocketLauncher();
                 break;
+            case Item.ItemType.Armor:
+                PlayerPowerups.ActivateArmor();
+                RemoveItem(itemType);
+                break;
             case Item.ItemType.SloMo:
                 PlayerPowerups.ActivateSloMo();
                 RemoveItem(itemType);
                 break;
             case Item.ItemType.MoDamage:
                 PlayerPowerups.ActivateMoDamage();
+                RemoveItem(itemType);
+                break;
+            case Item.ItemType.MoAmmo:
+                PlayerPowerups.ActivateMoAmmo();
+                RemoveItem(itemType);
+                break;
+            case Item.ItemType.MoBullets:
+                PlayerPowerups.ActivateMoBullets();
                 RemoveItem(itemType);
                 break;
         }

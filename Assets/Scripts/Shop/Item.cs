@@ -120,25 +120,25 @@ public class Item
     {
         switch (itemType)
         {
-            case ItemType.Pistol: return "pistol_icon";
-            case ItemType.AssaultRifle: return "assault_rifle_icon";
-            case ItemType.Shotgun: return "shotgun_icon";
-            case ItemType.RocketLauncher: return "rocket_launcher_icon";
-            case ItemType.Armor: return "armor_icon";
+            case ItemType.Pistol: return "pistol_icon"; // done
+            case ItemType.AssaultRifle: return "assault_rifle_icon"; // done
+            case ItemType.Shotgun: return "shotgun_icon"; // done
+            case ItemType.RocketLauncher: return "rocket_launcher_icon"; // done
+            case ItemType.Armor: return "armor_icon"; // done
             case ItemType.Grenades: return "grenades_icon";
             case ItemType.Airstrikes: return "airstrike_icon";
-            case ItemType.SloMo: return "slo_mo_icon";
-            case ItemType.MoAmmo: return "mo_ammo_icon";
-            case ItemType.MoDamage: return "mo_damage_icon";
-            case ItemType.MoBullets: return "mo_bullets_icon";
-            case ItemType.Subway1: return "subway1_icon";
-            case ItemType.Subway2: return "subway2_icon";
-            case ItemType.Subway3: return "subway3_icon";
-            case ItemType.Subway4: return "subway4_icon";
-            case ItemType.Subway5: return "subway5_icon";
-            case ItemType.Subway6: return "subway6_icon";
-            case ItemType.Subway7: return "subway7_icon";
-            case ItemType.Subway8: return "subway8_icon";
+            case ItemType.SloMo: return "slo_mo_icon"; // done
+            case ItemType.MoAmmo: return "mo_ammo_icon"; // done
+            case ItemType.MoDamage: return "mo_damage_icon"; // done
+            case ItemType.MoBullets: return "mo_bullets_icon"; // done
+            case ItemType.Subway1: return "subway_1";
+            case ItemType.Subway2: return "subway_2";
+            case ItemType.Subway3: return "subway_3";
+            case ItemType.Subway4: return "subway_4";
+            case ItemType.Subway5: return "subway_5";
+            case ItemType.Subway6: return "subway_6";
+            case ItemType.Subway7: return "subway_7";
+            case ItemType.Subway8: return "subway_8";
             default: return "unknown_icon";
         }
     }

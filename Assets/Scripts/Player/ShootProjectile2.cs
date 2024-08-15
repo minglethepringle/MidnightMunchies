@@ -13,6 +13,11 @@ public class ShootProjectile2 : MonoBehaviour
 
     public Weapon currentWeapon;
 
+    private float lastFireTime = 0f;
+
+    private const float ASSAULT_RIFLE_FIRE_RATE = 0.2f; // 5 shots per second (1 / 5 = 0.2 seconds between shots)
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,12 +30,30 @@ public class ShootProjectile2 : MonoBehaviour
     void Update()
     {
         if (PlayerLookController.locked || PlayerMovementController.locked) return;
+        
+        currentWeapon = PlayerWeaponManager.currentWeapon.GetComponent<Weapon>();
 
-        if (Input.GetButtonDown("Fire1"))
+        if (currentWeapon != null && currentWeapon.isActiveAndEnabled)
         {
-            if (currentWeapon != null)
+            if (currentWeapon.name == "AssaultRifle")
             {
-                currentWeapon.Fire(transform.position, transform.rotation);
+                // Continuous firing for AssaultRifle when Fire1 is held down, with fire rate limit
+                if (Input.GetButton("Fire1"))
+                {
+                    if (Time.time - lastFireTime >= ASSAULT_RIFLE_FIRE_RATE)
+                    {
+                        currentWeapon.Fire(transform.position, transform.rotation);
+                        lastFireTime = Time.time;
+                    }
+                }
+            }
+            else
+            {
+                // Single shot for other weapons when Fire1 is pressed
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    currentWeapon.Fire(transform.position, transform.rotation);
+                }
             }
         }
     }

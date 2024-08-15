@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public float startingHealth = 100;
+    public static float startingHealth = 100;
 
     private static float currentHealth;
     
@@ -88,5 +88,21 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth = health;
         Debug.Log("Health: " + currentHealth);
+    }
+
+    public static void IncreaseHealth(float amount)
+    {
+        float newHealth = currentHealth + amount;
+        
+        // If the new health exceeds the starting health, increase the maximum health
+        if (newHealth > startingHealth)
+        {
+            startingHealth = newHealth;
+        }
+        
+        // Set the current health to the new value
+        SetCurrentHealth(newHealth);
+        
+        Debug.Log($"Health increased by {amount}. Current health: {currentHealth}, Max health: {startingHealth}");
     }
 }

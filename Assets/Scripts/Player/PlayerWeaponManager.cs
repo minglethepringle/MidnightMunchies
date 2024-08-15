@@ -13,7 +13,9 @@ public class PlayerWeaponManager : MonoBehaviour
 
     public static GameObject rocketLauncher;
 
-    private static GameObject currentWeapon;
+    public static GameObject currentWeapon;
+
+    private GameObject mainCamera;
 
     // Start is called before the first frame update
     void Start()
@@ -24,25 +26,21 @@ public class PlayerWeaponManager : MonoBehaviour
 
     void AssignWeapons()
     {
-        // find in the children of the player:
-        GameObject player = GameObject.Find("Main Camera");
-        pistol = player.transform.Find("Pistol").gameObject;
-        // assaultRifle = player.transform.Find("AssaultRifle").gameObject;
-        // shotgun = player.transform.Find("Shotgun").gameObject;
-        rocketLauncher = player.transform.Find("RocketLauncher").gameObject;
-
-        Debug.Log("Pistol: " + pistol);
-        // Debug.Log("Assault Rifle: " + assaultRifle);
-        // Debug.Log("Shotgun: " + shotgun);
-        Debug.Log("Rocket Launcher: " + rocketLauncher);
+        mainCamera = Camera.main.gameObject;
+        pistol = mainCamera.transform.Find("Pistol").gameObject;
+        assaultRifle = mainCamera.transform.Find("AssaultRifle").gameObject;
+        shotgun = mainCamera.transform.Find("Shotgun").gameObject;
+        rocketLauncher = mainCamera.transform.Find("Rocket Launcher").gameObject;
     }
 
     public static void SwitchToPistol()
     {
         pistol.SetActive(true);
-        // assaultRifle.SetActive(false);
-        // shotgun.SetActive(false);
+        assaultRifle.SetActive(false);
+        shotgun.SetActive(false);
         rocketLauncher.SetActive(false);
+
+        currentWeapon = pistol;
     }
 
     public static void SwitchToAssaultRifle()
@@ -61,13 +59,16 @@ public class PlayerWeaponManager : MonoBehaviour
         pistol.SetActive(false);
         assaultRifle.SetActive(false);
         rocketLauncher.SetActive(false);
+
+        currentWeapon = shotgun;
     }
 
     public static void SwitchToRocketLauncher()
     {
         rocketLauncher.SetActive(true);
         pistol.SetActive(false);
-        // assaultRifle.SetActive(false);
-        // shotgun.SetActive(false);
+        assaultRifle.SetActive(false);
+        shotgun.SetActive(false);
+        currentWeapon = rocketLauncher;
     }
 }

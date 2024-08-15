@@ -54,7 +54,11 @@ public class PlayerPowerups : MonoBehaviour
         isMoBulletsActive = true;
     }
 
-    
+    public static void ActivateArmor()
+    {
+        PlayerHealth.IncreaseHealth(50);
+    }
+
     private static IEnumerator SloMoTimer()
     {
         yield return new WaitForSecondsRealtime(15f);
