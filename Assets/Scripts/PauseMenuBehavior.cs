@@ -30,6 +30,10 @@ public class PauseMenuBehavior : MonoBehaviour
         Time.timeScale = 0f;
         pauseMenu.SetActive(true);
 
+        PlayerMovementController.locked = true;
+        PlayerLookController.locked = true;
+        PlayerLookController.HideWeapons();
+
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
@@ -39,6 +43,10 @@ public class PauseMenuBehavior : MonoBehaviour
         isGamePaused = false;
         Time.timeScale = 1f;
         pauseMenu.SetActive(false);
+
+        PlayerMovementController.locked = false;
+        PlayerLookController.locked = false;
+        PlayerLookController.ShowWeapons();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
