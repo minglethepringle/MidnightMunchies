@@ -151,13 +151,13 @@ MonoBehaviour:
     value: 100
   lift:
     overrideState: 1
-    value: {x: 0.9250157, y: 0.95652163, z: 1, w: -0.04278075}
+    value: {x: 0.9000805, y: 0.9315772, z: 1, w: -0.04278075}
   gamma:
     overrideState: 1
     value: {x: 1, y: 1, z: 1, w: 0.10695187}
   gain:
     overrideState: 1
-    value: {x: 1, y: 0.97770125, z: 0.9235015, w: 0.28877005}
+    value: {x: 0.8730735, y: 1, z: 0.7783312, w: 0.28877005}
   masterCurve:
     overrideState: 0
     value:
