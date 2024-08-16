@@ -58,6 +58,12 @@ public class PlayerHealth : MonoBehaviour
             AudioSource.PlayClipAtPoint(invincibleSound, Camera.main.transform.position);
             Destroy(other.gameObject);
         }
+
+        if (other.gameObject.CompareTag("Train"))
+        {
+            transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
+            Die();
+        }
     }
 
     void MakeVulnerable(){

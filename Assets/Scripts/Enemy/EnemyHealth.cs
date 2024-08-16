@@ -56,6 +56,11 @@ public class EnemyHealth : MonoBehaviour
             float multiplier = PlayerPowerups.isMoDamageActive ? 1.25f : 1f;
             TakeDamage(projectileDamage * multiplier);
         }
+
+        if (other.CompareTag("Train"))
+        {
+            Die();
+        }
     }
 
     public void TakeDamage(float damage) {
