@@ -1,40 +1,55 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.ProBuilder;
+using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
-    public float xMin = -25;
-    public float xMax = 25;
-
-    public float zMin = -25;
-    public float zMax = 25;
-
+    public PolyShape polyShape;
     public float numEnemies = 10;
+
+    private MeshCollider polyShapeCollider;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        polyShapeCollider = polyShape.GetComponent<MeshCollider>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Spawn()
     {
-        
-    }
-
-    public void Spawn() {
         for (int i = 0; i < numEnemies; i++)
         {
-            Vector3 enemyPosition = new Vector3(transform.position.x, 0, transform.position.z);
-            enemyPosition.x += Random.Range(xMin, xMax);
-            enemyPosition.z += Random.Range(zMin, zMax);
-            // Random rotation
-            Quaternion enemyRotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
-            GameObject spawnedEnemy = Instantiate(enemyPrefab, enemyPosition, enemyRotation) as GameObject;
-
+            Vector3 randomPosition = GetRandomWorldPointInPolyShape();
+            Quaternion randomRotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+            GameObject spawnedEnemy = Instantiate(enemyPrefab, randomPosition, randomRotation);
             spawnedEnemy.transform.parent = gameObject.transform;
         }
+    }
+
+    private Vector3 GetRandomWorldPointInPolyShape()
+    {
+        // Get the bounds of the mesh
+        Bounds worldBounds = polyShapeCollider.bounds;
+
+        // Loop until a valid point is found
+        Vector3 worldPoint;
+        do
+        {
+            float randomX = Random.Range(worldBounds.min.x, worldBounds.max.x);
+            float randomZ = Random.Range(worldBounds.min.z, worldBounds.max.z);
+            worldPoint = new Vector3(randomX, 0, randomZ);
+        } while (!IsPointInPolyShape(worldPoint));
+
+        return worldPoint;
+    }
+
+    private bool IsPointInPolyShape(Vector3 point)
+    {
+        // Raycast from this point (slightly above) downward to see if it hits the collider
+        Ray ray = new Ray(point + Vector3.up * 0.1f, Vector3.down);
+        return polyShapeCollider.Raycast(ray, out _, 1000f);
     }
 }

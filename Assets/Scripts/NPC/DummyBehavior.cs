@@ -23,6 +23,8 @@ public class DummyBehavior : MonoBehaviour
     void Start()
     {
         state = NPCState.IDLE;
+        if (player == null)
+            player = GameObject.FindWithTag("Player").transform;
     }
 
     // Update is called once per frame
