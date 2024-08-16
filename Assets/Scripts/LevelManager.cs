@@ -82,6 +82,9 @@ public class LevelManager : MonoBehaviour
         PlayerCheckpoint.RecordCheckpoint();
         
         levelIndex++;
+        
+        // Destroy old enemies by destroying the previous level spawner
+        Destroy(staticLevelSpawners[levelIndex - 1]);
 
         SpawnLevelEnemies();
     }
