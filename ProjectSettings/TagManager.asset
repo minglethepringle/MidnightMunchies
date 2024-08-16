@@ -18,6 +18,7 @@ TagManager:
   - InvincibilityStar
   - Money1Dollar
   - Nuke
+  - Train
   layers:
   - Default
   - TransparentFX

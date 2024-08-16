@@ -59,6 +59,11 @@ public class EnemyHealth : MonoBehaviour
             Debug.Log("EnemyHealth: OnTriggerEnter: Bullet: PlayerWeaponManager.CurrentWeaponDamage(): " + PlayerWeaponManager.CurrentWeaponDamage());
             TakeDamage(PlayerWeaponManager.CurrentWeaponDamage() * multiplier);
         }
+
+        if (other.CompareTag("Train"))
+        {
+            Die();
+        }
     }
 
     public void TakeDamage(float damage) {
