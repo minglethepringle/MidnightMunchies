@@ -176,9 +176,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4381339351682146193}
+  - component: {fileID: 8499591665540832891}
   m_Layer: 0
   m_Name: Pistol_B
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -203,6 +204,24 @@ Transform:
   - {fileID: 7778484151462554749}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8499591665540832891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4001013144905581867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17fd4a29486e14e9f862afaa715040cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 2707047686601396690, guid: 4b2c44a580bbf40678aaceb8b5ecf4a9, type: 3}
+  projectileSpeed: 100
+  gunSFX1: {fileID: 8300000, guid: 581b474cfeab249cbb1277a0676fe146, type: 3}
+  gunSFX2: {fileID: 8300000, guid: 285df1846349144229d2fb915d8d014d, type: 3}
+  bulletOffset: {x: 0.2, y: -0.1, z: 0}
+  muzzleFlash: {fileID: 627069700445875495}
 --- !u!1 &4011834019176120723
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,6 +528,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e1d1ee4c5ce54be6a49ce439d1e5432, type: 3}
+--- !u!198 &627069700445875495 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6673202104378833337, guid: 7e1d1ee4c5ce54be6a49ce439d1e5432, type: 3}
+  m_PrefabInstance: {fileID: 6064155605250020510}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6429932888987159930 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 942238042753685988, guid: 7e1d1ee4c5ce54be6a49ce439d1e5432, type: 3}

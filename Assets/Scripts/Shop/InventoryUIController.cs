@@ -37,7 +37,6 @@ public class InventoryUIController : MonoBehaviour
 
     private void Start()
     {
-        Item.DebugCheckIcons();
         MakeInitialInventory();
     }
 
@@ -124,28 +123,30 @@ public class InventoryUIController : MonoBehaviour
     }
 
     private void RemoveItem(Item.ItemType itemType)
-    {        
-        int index = orderedItems.IndexOf(itemType);
-        
-        if (index != -1)
+    {
+        int count = Inventory.GetItemCount(itemType);
+        if (count > 1)
         {
-            if (filledSlots[index] != null)
-            {
-                Destroy(filledSlots[index]);
-                filledSlots[index] = null;
-            }
-            emptySlots[index].SetActive(true);
-            inventoryItems.Remove(itemType);
-            orderedItems.RemoveAt(index);
-
-            Inventory.RemoveItem(itemType);
-
-            // Reposition remaining items
-            RepositionItems();
+            UpdateItemQuantity(itemType, count - 1);
         }
         else
         {
-            Debug.LogWarning($"Tried to remove {itemType}, but it wasn't in the orderedItems list.");
+            int index = orderedItems.IndexOf(itemType);
+            
+            if (index != -1)
+            {
+                if (filledSlots[index] != null)
+                {
+                    Destroy(filledSlots[index]);
+                    filledSlots[index] = null;
+                }
+                emptySlots[index].SetActive(true);
+                inventoryItems.Remove(itemType);
+                orderedItems.RemoveAt(index);
+
+                // Reposition remaining items
+                RepositionItems();
+            }
         }
     }
 
@@ -226,12 +227,30 @@ public class InventoryUIController : MonoBehaviour
             case Item.ItemType.RocketLauncher:
                 PlayerWeaponManager.SwitchToRocketLauncher();
                 break;
+            case Item.ItemType.Grenades:
+                PlayerWeaponManager.SwitchToGrenade();
+                break;
+            case Item.ItemType.Airstrikes:
+                PlayerWeaponManager.SwitchToAirstrike();
+                break;
+            case Item.ItemType.Armor:
+                PlayerPowerups.ActivateArmor();
+                RemoveItem(itemType);
+                break;
             case Item.ItemType.SloMo:
                 PlayerPowerups.ActivateSloMo();
                 RemoveItem(itemType);
                 break;
             case Item.ItemType.MoDamage:
                 PlayerPowerups.ActivateMoDamage();
+                RemoveItem(itemType);
+                break;
+            case Item.ItemType.MoAmmo:
+                PlayerPowerups.ActivateMoAmmo();
+                RemoveItem(itemType);
+                break;
+            case Item.ItemType.MoBullets:
+                PlayerPowerups.ActivateMoBullets();
                 RemoveItem(itemType);
                 break;
         }

@@ -9,8 +9,6 @@ public class EnemyHealth : MonoBehaviour
 
     private float currentHealth;
 
-    public float projectileDamage = 10f;
-
     public Slider healthSlider;
 
     public GameObject moneyPrefab;
@@ -51,10 +49,15 @@ public class EnemyHealth : MonoBehaviour
         if (isDead) {
             return;
         }
+
+        Debug.Log("EnemyHealth: OnTriggerEnter");
         
         if (other.CompareTag("Bullet")) {
+            Debug.Log("EnemyHealth: OnTriggerEnter: Bullet");
             float multiplier = PlayerPowerups.isMoDamageActive ? 1.25f : 1f;
-            TakeDamage(projectileDamage * multiplier);
+            Debug.Log("EnemyHealth: OnTriggerEnter: Bullet: multiplier: " + multiplier);
+            Debug.Log("EnemyHealth: OnTriggerEnter: Bullet: PlayerWeaponManager.CurrentWeaponDamage(): " + PlayerWeaponManager.CurrentWeaponDamage());
+            TakeDamage(PlayerWeaponManager.CurrentWeaponDamage() * multiplier);
         }
     }
 
