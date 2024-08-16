@@ -11,7 +11,6 @@ public class LevelManager : MonoBehaviour
 
     public AudioClip gameOverSFX;
     public AudioClip gameWonSFX;
-    public AudioClip backgroundMusic;
 
     [Header("Level Management")]
     public List<GameObject> levelSpawners;
@@ -28,13 +27,6 @@ public class LevelManager : MonoBehaviour
     {
         isGameOver = false;
         StartCoroutine(RecordCheckpointAfterStart());
-
-        // set up and play background music
-        backgroundMusicSource = gameObject.AddComponent<AudioSource>();
-        backgroundMusicSource.clip = backgroundMusic;
-        backgroundMusicSource.loop = true;
-        backgroundMusicSource.playOnAwake = true;
-        backgroundMusicSource.Play();
         
         staticLevelSpawners = new List<GameObject>(levelSpawners);
         

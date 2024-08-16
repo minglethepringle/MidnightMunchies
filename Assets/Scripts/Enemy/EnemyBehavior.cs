@@ -12,12 +12,15 @@ public class EnemyBehavior : MonoBehaviour
 
     public float damage = 20f;
 
+    public AudioClip[] groanSounds;
+
     public AudioClip hitSound;
 
     private Animator animator;
 
     public float damageInterval = 1f;
-    
+
+    private AudioSource audioSource;
     private float lastDamageTime;
     private bool isDead = false;
 
@@ -30,6 +33,17 @@ public class EnemyBehavior : MonoBehaviour
         }
 
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+        StartCoroutine(GroanRandomly());
+    }
+
+    private IEnumerator GroanRandomly()
+    {
+        while (!isDead)
+        {
+            yield return new WaitForSeconds(Random.Range(2f, 5f));
+            audioSource.PlayOneShot(groanSounds[Random.Range(0, groanSounds.Length)]);
+        }
     }
 
     // Update is called once per frame

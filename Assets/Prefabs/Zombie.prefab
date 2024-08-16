@@ -1134,6 +1134,25 @@ MonoBehaviour:
   speed: 0.02
   minimumDistance: 2
   damage: 10
+  groanSounds:
+  - {fileID: 8300000, guid: ac04e3f36e78efb4aa86110672f39004, type: 3}
+  - {fileID: 8300000, guid: 630ba80ad8e93be44a636b22d8fa8af8, type: 3}
+  - {fileID: 8300000, guid: ed87635a9b63d1a44b05798c99901bae, type: 3}
+  - {fileID: 8300000, guid: 285ccb758faa3f34095930dfc6e69caa, type: 3}
+  - {fileID: 8300000, guid: 359a43cf21bf73549b735b4ee9dbdb33, type: 3}
+  - {fileID: 8300000, guid: 88af007ba26d0174fa041dcf7f6652a9, type: 3}
+  - {fileID: 8300000, guid: f5a97d8c4bbcb134f9c6a843bdf66ff0, type: 3}
+  - {fileID: 8300000, guid: d7c0d956c29d84543ba825d9500a1cda, type: 3}
+  - {fileID: 8300000, guid: 9aae578bee246d0429aab5128fe5c0d9, type: 3}
+  - {fileID: 8300000, guid: f3315c65c656d8d4ea54e23b89e7cc5a, type: 3}
+  - {fileID: 8300000, guid: 267fcd0ce40b12a478a4e26e2fb9309c, type: 3}
+  - {fileID: 8300000, guid: f38fa8a5f8d7b964d8098e8e826330a1, type: 3}
+  - {fileID: 8300000, guid: bfedc7214440a6a48806047a075e6ff4, type: 3}
+  - {fileID: 8300000, guid: e013492012141ca4e91c884c7b8c50e9, type: 3}
+  - {fileID: 8300000, guid: 7224199ffbc99284190697f4d23020c1, type: 3}
+  - {fileID: 8300000, guid: ec456683e768c3f479f3bc61f30d4d45, type: 3}
+  - {fileID: 8300000, guid: a1aba8b9318f8d74aad8b5b5c6228f51, type: 3}
+  - {fileID: 8300000, guid: e555b2b2bf7d0c34c8e60ede685eb274, type: 3}
   hitSound: {fileID: 0}
   damageInterval: 1
 --- !u!114 &7765218665811440050
@@ -1149,7 +1168,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 100
-  projectileDamage: 10
   healthSlider: {fileID: 2547955897171552448}
   moneyPrefab: {fileID: 2464988732922791739, guid: 0bb3763a445b5de4eb87236307133810, type: 3}
   deathSound: {fileID: 8300000, guid: 50c5b67ef269c4099a2daee2d810bea7, type: 3}
@@ -1183,10 +1201,10 @@ AudioSource:
   m_GameObject: {fileID: 2283608586276638363}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1455646046362038991, guid: 2ad52cc54b8a81145b535153f1f35065, type: 2}
   m_audioClip: {fileID: 8300000, guid: 92466db80aa7845d18ef2855579e455c, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.019
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1195,9 +1213,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 20
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -1230,7 +1248,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
