@@ -6,7 +6,9 @@ public class PlayerLookController : MonoBehaviour
 {
 	public static bool locked = false;
 	
-	public float mouseSensitivity = 200f;
+	public static float mouseSensitivity = 200f;
+
+	public static float volume = 1.0f;
     
 	private Transform playerBody;
 	private float pitch;
@@ -50,5 +52,15 @@ public class PlayerLookController : MonoBehaviour
 	{
 		GameObject.FindGameObjectWithTag("Weapon").transform.localPosition += new Vector3(0, 1000, 0);
 		GameObject.FindGameObjectWithTag("Crosshair").GetComponent<CanvasRenderer>().cull = false;
+	}
+
+	public static void SetMouseSens(float value)
+    {
+		mouseSensitivity = value;
+    }
+
+	public static void SetVolume(float value)
+    {
+		AudioListener.volume = value;
 	}
 }
