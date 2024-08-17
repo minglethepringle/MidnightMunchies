@@ -25,7 +25,6 @@ public class PlayerWeaponManager : MonoBehaviour
     void Start()
     {
         AssignWeapons();
-        SwitchToPistol();
     }
 
     void AssignWeapons()
