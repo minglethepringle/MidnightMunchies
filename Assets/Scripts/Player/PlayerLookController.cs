@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerLookController : MonoBehaviour
@@ -12,6 +13,7 @@ public class PlayerLookController : MonoBehaviour
     
 	private Transform playerBody;
 	private float pitch;
+	private static GameObject activeWeapon;
     
 	// Start is called before the first frame update
 	void Start()
@@ -43,14 +45,14 @@ public class PlayerLookController : MonoBehaviour
 
 	public static void HideWeapons()
 	{
-		// Move it down and hide it
-		GameObject.FindGameObjectWithTag("Weapon").transform.localPosition -= new Vector3(0, 1000, 0);
+		activeWeapon = GameObject.FindGameObjectWithTag("Weapon");
+		activeWeapon.SetActive(false);
 		GameObject.FindGameObjectWithTag("Crosshair").GetComponent<CanvasRenderer>().cull = true;
 	}
 	
 	public static void ShowWeapons()
 	{
-		GameObject.FindGameObjectWithTag("Weapon").transform.localPosition += new Vector3(0, 1000, 0);
+		activeWeapon.SetActive(true);
 		GameObject.FindGameObjectWithTag("Crosshair").GetComponent<CanvasRenderer>().cull = false;
 	}
 

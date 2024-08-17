@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,13 @@ public class PauseMenuBehavior : MonoBehaviour
     public static bool isGamePaused = false;
     public GameObject pauseMenu;
     public AudioClip sfx;
+
+    private void Start()
+    {
+        // On start / when the game is loaded, make sure the game is not paused
+        isGamePaused = false;
+        ResumeGame(); // to reset the game state
+    }
 
     // Update is called once per frame
     void Update()
