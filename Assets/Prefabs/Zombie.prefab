@@ -1131,7 +1131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  speed: 0.02
+  speed: 0.1
   minimumDistance: 2
   damage: 10
   groanSounds:
