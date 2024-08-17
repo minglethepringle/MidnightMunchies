@@ -42,7 +42,8 @@ public class EnemyBehavior : MonoBehaviour
         while (!isDead)
         {
             yield return new WaitForSeconds(Random.Range(2f, 5f));
-            audioSource.PlayOneShot(groanSounds[Random.Range(0, groanSounds.Length)]);
+            if (audioSource)
+                audioSource.PlayOneShot(groanSounds[Random.Range(0, groanSounds.Length)]);
         }
     }
 

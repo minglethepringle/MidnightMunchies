@@ -22,6 +22,8 @@ public class PlayerLookController : MonoBehaviour
 
 		Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;
+		
+		activeWeapon = GameObject.FindGameObjectWithTag("Weapon");
 	}
 
 	// Update is called once per frame

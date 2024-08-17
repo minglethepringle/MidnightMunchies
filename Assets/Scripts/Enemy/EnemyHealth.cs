@@ -53,6 +53,7 @@ public class EnemyHealth : MonoBehaviour
         if (other.CompareTag("Bullet")) {
             float multiplier = PlayerPowerups.isMoDamageActive ? 1.25f : 1f;
             TakeDamage(PlayerWeaponManager.CurrentWeaponDamage() * multiplier);
+            Destroy(other.gameObject);
         }
 
         if (other.CompareTag("Train"))
