@@ -50,7 +50,7 @@ public class PauseMenuBehavior : MonoBehaviour
     {
         PostProcessingManager.EnableEffects(0.03f);
         isGamePaused = true;
-        Time.timeScale = 0.01f;
+        Time.timeScale = 0f;
         pausePanel.SetActive(true);
 
         PlayerMovementController.locked = true;

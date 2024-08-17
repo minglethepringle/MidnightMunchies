@@ -31,6 +31,8 @@ public class Inventory : MonoBehaviour
         {
             instance.inventoryItems[itemType] = amountToAdd;
         }
+
+        InventoryUIController.AddItemToSlot(itemType);
     }
 
     public static void RemoveItem(Item.ItemType itemType)
@@ -43,6 +45,7 @@ public class Inventory : MonoBehaviour
             if (itemCount <= 0)
             {
                 instance.inventoryItems.Remove(itemType);
+                InventoryUIController.RemoveItemFromSlot(itemType);
             }
         }
     }
