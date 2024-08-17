@@ -26,8 +26,9 @@ public class PauseMenuBehavior : MonoBehaviour
 
     void PauseGame()
     {
+        PostProcessingManager.EnableEffects(0.03f);
         isGamePaused = true;
-        Time.timeScale = 0f;
+        Time.timeScale = 0.01f;
         pauseMenu.SetActive(true);
 
         PlayerMovementController.locked = true;
@@ -40,6 +41,7 @@ public class PauseMenuBehavior : MonoBehaviour
 
     public void ResumeGame()
     {
+        PostProcessingManager.DisableEffects(0.05f);
         isGamePaused = false;
         Time.timeScale = 1f;
         pauseMenu.SetActive(false);

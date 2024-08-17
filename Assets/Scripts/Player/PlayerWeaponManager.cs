@@ -117,7 +117,7 @@ public class PlayerWeaponManager : MonoBehaviour
         {
             case "Pistol":
                 return 10f;
-            case "AssaultRifle":
+            case "Assault Rifle":
                 return 20f;
             case "Shotgun":
                 return 50f;

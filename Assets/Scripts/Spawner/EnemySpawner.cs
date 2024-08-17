@@ -15,7 +15,15 @@ public class EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        polyShapeCollider = polyShape.GetComponent<MeshCollider>();
+        try 
+        {
+            polyShapeCollider = polyShape.GetComponent<MeshCollider>();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("PolyShape does not have a MeshCollider component. Trying to find one in children.");
+            polyShapeCollider = polyShape.GetComponentInChildren<MeshCollider>();
+        }
     }
 
     public void Spawn()
