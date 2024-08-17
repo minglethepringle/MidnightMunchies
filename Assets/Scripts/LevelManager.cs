@@ -15,7 +15,7 @@ public class LevelManager : MonoBehaviour
     [Header("Level Management")]
     public List<GameObject> levelSpawners;
 
-    public static List<GameObject> staticLevelSpawners;
+    // public static List<GameObject> staticLevelSpawners;
 
     public static bool isGameOver = false;
 
@@ -47,9 +47,9 @@ public class LevelManager : MonoBehaviour
         isGameOver = false;
         StartCoroutine(RecordCheckpointAfterStart());
         
-        staticLevelSpawners = new List<GameObject>(levelSpawners);
+        // staticLevelSpawners = new List<GameObject>(levelSpawners);
         
-        SpawnLevelEnemies();
+        // SpawnLevelEnemies();
         DisplayCurrentObjective();
         CreateObjectiveCylinder();
         
@@ -70,7 +70,7 @@ public class LevelManager : MonoBehaviour
     
     public static void SpawnLevelEnemies()
     {
-        staticLevelSpawners[levelIndex].GetComponent<EnemySpawner>().Spawn();
+        // staticLevelSpawners[levelIndex].GetComponent<EnemySpawner>().Spawn();
     }
 
     public void GameWon()
@@ -120,7 +120,7 @@ public class LevelManager : MonoBehaviour
         currentObjectiveIndex++;
 
         LevelManager instance = FindObjectOfType<LevelManager>();
-        if (levelIndex >= staticLevelSpawners.Count)
+        if (levelIndex >= 4)//staticLevelSpawners.Count)
         {
             if (instance != null)
             {
@@ -129,9 +129,9 @@ public class LevelManager : MonoBehaviour
             return;
         }
         
-        Destroy(staticLevelSpawners[levelIndex - 1]);
+        // Destroy(staticLevelSpawners[levelIndex - 1]);
 
-        SpawnLevelEnemies();
+        // SpawnLevelEnemies();
 
         if (instance != null)
         {

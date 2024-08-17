@@ -54,12 +54,12 @@ public class PlayerCheckpoint : MonoBehaviour
         if (inventoryItems.Count > 1)
             PlayerWeaponManager.SwitchToPistol();
         
-        LevelManager.levelIndex = levelIndex;
+        // LevelManager.levelIndex = levelIndex;
         LevelManager.currentObjectiveIndex = objectiveIndex;
 
         // Destroy and respawn enemies
-        LevelManager.staticLevelSpawners[levelIndex].GetComponent<EnemySpawner>().Purge();
-        LevelManager.SpawnLevelEnemies();
+        // LevelManager.staticLevelSpawners[levelIndex].GetComponent<EnemySpawner>().Purge();
+        // LevelManager.SpawnLevelEnemies();
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
