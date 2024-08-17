@@ -76,7 +76,15 @@ public class ShootProjectile2 : MonoBehaviour
 
     private void FixedUpdate()
     {
-        ReticleEffect();
+        if (!PauseMenuBehavior.isGamePaused)
+        {
+            reticleImage.enabled = true;
+            ReticleEffect();
+        }
+        else
+        {
+            reticleImage.enabled = false;
+        }
     }
 
     void ReticleEffect()
