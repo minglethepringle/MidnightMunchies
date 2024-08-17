@@ -45,7 +45,9 @@ public class Inventory : MonoBehaviour
         if (instance.inventoryItems.ContainsKey(itemType))
         {
             instance.inventoryItems[itemType]--;
-            if (instance.inventoryItems[itemType] <= 0)
+            int itemCount = instance.inventoryItems[itemType];
+
+            if (itemCount <= 0)
             {
                 instance.inventoryItems.Remove(itemType);
             }

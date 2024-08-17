@@ -170,20 +170,16 @@ public class LevelManager : MonoBehaviour
 
     private void DisplayCurrentObjective()
     {
-        Debug.Log("Displaying current objective");
         if (objectiveText != null && currentObjectiveIndex < objectives.Count)
         {
-            Debug.Log("Starting coroutine");
             StartCoroutine(FadeObjectiveText(objectives[currentObjectiveIndex].text));
         }
     }
 
     private IEnumerator FadeObjectiveText(string text)
     {
-        Debug.Log("Displaying objective: " + text);
         objectiveText.text = text;
         objectiveText.gameObject.SetActive(true);
-        Debug.Log("Objective text active: " + objectiveText.gameObject.activeSelf);
 
         // Fade in
         for (float t = 0; t < 1; t += Time.deltaTime / 0.5f)

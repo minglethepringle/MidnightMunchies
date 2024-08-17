@@ -85,7 +85,7 @@ public class ShopUIController : MonoBehaviour
         itemName.text = Item.GetName(itemType);
         iconImage.sprite = Item.GetIcon(itemType);
         itemPrice.text = '$' + Item.GetCost(itemType).ToString();
-        itemSold.text = "SOLD";
+        // itemSold.text = "SOLD";
 
         itemSold.gameObject.SetActive(false);
 
@@ -104,18 +104,29 @@ public class ShopUIController : MonoBehaviour
 
     private void TryToBuyItem(Item.ItemType itemType)
     {
-        if (Item.IsItemPurchased(itemType))
-        {
-            SetAlertText("Item already purchased");
-            return;
-        }
+        // For now, letting them buy the same item multiple times
+        // if (Item.IsItemPurchased(itemType))
+        // {
+        //     SetAlertText("Item already purchased");
+        //     return;
+        // }
 
         int cost = Item.GetCost(itemType);
         if (PlayerBankAccount.GetCurrentBalance() >= cost)
         {
             PlayerBankAccount.SubtractHuskyDollars(cost);
             Item.PurchaseItem(itemType);
-            Inventory.AddItem(itemType);
+
+            int quantity = Item.GetQuantity(itemType);
+            if (PlayerPowerups.isMoAmmoActive)
+            {
+                quantity *= 2;
+            }
+            for (int i = 0; i < quantity; i++)
+            {
+                Inventory.AddItem(itemType);
+            }
+            
             SetAlertText("Item bought: " + Item.GetName(itemType));
             UpdateItemUI(itemType);
         }
@@ -132,16 +143,16 @@ public class ShopUIController : MonoBehaviour
             Text itemPrice = shopItem.transform.Find("ItemPrice").GetComponent<Text>();
             Text itemSold = shopItem.transform.Find("ItemSold").GetComponent<Text>();
 
-            if (Item.IsItemPurchased(itemType))
-            {
-                itemPrice.gameObject.SetActive(false);
-                itemSold.gameObject.SetActive(true);
-            }
-            else
-            {
+            // if (Item.IsItemPurchased(itemType))
+            // {
+            //     itemPrice.gameObject.SetActive(false);
+            //     itemSold.gameObject.SetActive(true);
+            // }
+            // else
+            // {
                 itemPrice.gameObject.SetActive(true);
                 itemSold.gameObject.SetActive(false);
-            }
+            // }
         }
     }
 

@@ -17,7 +17,7 @@ public class ShootProjectile2 : MonoBehaviour
 
     private float lastFireTime = 0f;
 
-    private const float ASSAULT_RIFLE_FIRE_RATE = 0.2f; // 5 shots per second (1 / 5 = 0.2 seconds between shots)
+    private const float ASSAULT_RIFLE_FIRE_RATE = 0.1f; // 10 shots per second (1 / 10 = 0.1 seconds between shots)
 
 
     // Start is called before the first frame update
@@ -51,7 +51,12 @@ public class ShootProjectile2 : MonoBehaviour
     {
         if (weapon.hasContinousFire)
         {
-            if (Input.GetButton("Fire1") && Time.time - lastFireTime >= ASSAULT_RIFLE_FIRE_RATE)
+            float fireRate = ASSAULT_RIFLE_FIRE_RATE;
+            if (PlayerPowerups.isMoBulletsActive)
+            {
+                fireRate /= 2;
+            }
+            if (Input.GetButton("Fire1") && Time.time - lastFireTime >= fireRate)
             {
                 weapon.Fire(transform.position, transform.rotation);
                 lastFireTime = Time.time;

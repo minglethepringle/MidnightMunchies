@@ -39,6 +39,27 @@ public class PlayerWeaponManager : MonoBehaviour
         airstrike = mainCamera.transform.Find("Airstrike").gameObject;
     }
 
+    public static Item.ItemType CurrentWeaponType()
+    {
+        switch (currentWeapon.name)
+        {
+            case "Pistol":
+                return Item.ItemType.Pistol;
+            case "Assault Rifle":
+                return Item.ItemType.AssaultRifle;
+            case "Shotgun":
+                return Item.ItemType.Shotgun;
+            case "Rocket Launcher":
+                return Item.ItemType.RocketLauncher;
+            case "Grenade":
+                return Item.ItemType.Grenades;
+            case "Airstrike":
+                return Item.ItemType.Airstrikes;
+            default:
+                return Item.ItemType.Pistol;
+        }
+    }
+
     public static void SwitchToPistol()
     {
         pistol.SetActive(true);

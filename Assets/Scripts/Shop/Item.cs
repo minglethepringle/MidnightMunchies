@@ -82,6 +82,33 @@ public class Item
         }
     }
 
+    public static int GetQuantity(ItemType itemType)
+    {
+        switch (itemType)
+        {
+            case ItemType.Pistol: return 1;
+            case ItemType.AssaultRifle: return 100;
+            case ItemType.Shotgun: return 8;
+            case ItemType.RocketLauncher: return 4;
+            case ItemType.Armor: return 1;
+            case ItemType.Grenades: return 5;
+            case ItemType.Airstrikes: return 3;
+            case ItemType.SloMo: return 1;
+            case ItemType.MoAmmo: return 1;
+            case ItemType.MoDamage: return 1;
+            case ItemType.MoBullets: return 1;
+            case ItemType.Subway1: return 1;
+            case ItemType.Subway2: return 1;
+            case ItemType.Subway3: return 1;
+            case ItemType.Subway4: return 1;
+            case ItemType.Subway5: return 1;
+            case ItemType.Subway6: return 1;
+            case ItemType.Subway7: return 1;
+            case ItemType.Subway8: return 1;
+            default: return 0;
+        }
+    }
+
     public static void PurchaseItem(ItemType itemType)
     {
         purchasedItems.Add(itemType);
