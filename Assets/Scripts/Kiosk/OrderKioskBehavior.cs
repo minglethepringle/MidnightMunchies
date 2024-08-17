@@ -42,7 +42,7 @@ public class OrderKioskBehavior : MonoBehaviour
             wantedPlayerRotation = transform.rotation * Quaternion.Euler(0, 180, 0);
         }
         
-        if (Input.GetKeyDown(Controls.EXIT_ORDER) && isOrdering)
+        else if (Input.GetKeyDown(Controls.EXIT_ORDER) && isOrdering)
         {
             isOrdering = false;
             kioskUi.GetComponent<KioskUIController>().Hide();
