@@ -10,17 +10,22 @@ public class SettingsMenu : MonoBehaviour
 
     void Start()
     {
+        sensitivitySlider.value = SettingsManager.Instance.Sensitivity;
+        volumeSlider.value = SettingsManager.Instance.Volume;
+
         sensitivitySlider.onValueChanged.AddListener(OnSensitivitySliderChanged);
         volumeSlider.onValueChanged.AddListener(OnVolumeSliderChanged);
     }
 
     private void OnSensitivitySliderChanged(float value)
     {
+        SettingsManager.Instance.Sensitivity = value;
         PlayerLookController.SetMouseSens(sensitivitySlider.value * 40f);
     }
 
     private void OnVolumeSliderChanged(float value)
     {
+        SettingsManager.Instance.Volume = value;
         PlayerLookController.SetVolume(volumeSlider.value / 10f);
     }
 }

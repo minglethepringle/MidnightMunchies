@@ -7,7 +7,10 @@ using UnityEngine.SceneManagement;
 public class PauseMenuBehavior : MonoBehaviour
 {
     public static bool isGamePaused = false;
+    public GameObject pausePanel;
     public GameObject pauseMenu;
+    public GameObject settingsMenu;
+
     public AudioClip sfx;
 
     private void Start()
@@ -26,7 +29,15 @@ public class PauseMenuBehavior : MonoBehaviour
 
             if (isGamePaused)
             {
-                ResumeGame();
+                if (pauseMenu.activeSelf)
+                {
+                    ResumeGame();
+                }
+                else
+                {
+                    pauseMenu.SetActive(true);
+                    settingsMenu.SetActive(false);
+                }
             }
             else
             {
@@ -40,7 +51,7 @@ public class PauseMenuBehavior : MonoBehaviour
         PostProcessingManager.EnableEffects(0.03f);
         isGamePaused = true;
         Time.timeScale = 0.01f;
-        pauseMenu.SetActive(true);
+        pausePanel.SetActive(true);
 
         PlayerMovementController.locked = true;
         PlayerLookController.locked = true;
@@ -55,7 +66,7 @@ public class PauseMenuBehavior : MonoBehaviour
         PostProcessingManager.DisableEffects(0.05f);
         isGamePaused = false;
         Time.timeScale = 1f;
-        pauseMenu.SetActive(false);
+        pausePanel.SetActive(false);
 
         PlayerMovementController.locked = false;
         PlayerLookController.locked = false;
