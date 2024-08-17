@@ -1,23 +1,16 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InventoryUIController : MonoBehaviour
 {
+    [SerializeField] private int maxSlots = 10;
     private Transform container;
     private Transform inventoryItemTemplate;
     private Transform emptyInventoryItemTemplate;
     private static InventoryUIController instance;
 
-    private Dictionary<Item.ItemType, GameObject> inventoryItems = new Dictionary<Item.ItemType, GameObject>();
-    private List<Item.ItemType> orderedItems = new List<Item.ItemType>();
-    private GameObject[] emptySlots = new GameObject[10];
-    private GameObject[] filledSlots = new GameObject[10];
-
-    private Item.ItemType activeItem;
+    private static Dictionary<int, Item.ItemType> slotItems = new Dictionary<int, Item.ItemType>();
 
     private void Awake()
     {
@@ -36,11 +29,6 @@ public class InventoryUIController : MonoBehaviour
         emptyInventoryItemTemplate = container.Find("EmptyItemTemplate");
     }
 
-    private void Start()
-    {
-        MakeInitialInventory();
-    }
-
     private void Update()
     {
         HandleHotkeyInput();
@@ -49,167 +37,111 @@ public class InventoryUIController : MonoBehaviour
 
     private void HandleHotkeyInput()
     {
-        for (int i = 0; i < orderedItems.Count && i < 9; i++)
+        for (int i = 1; i <= maxSlots && i <= 9; i++)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
+            if (Input.GetKeyDown(KeyCode.Alpha0 + i) && slotItems.TryGetValue(i, out Item.ItemType itemType))
             {
-                ActivateItem(orderedItems[i]);
+                ActivateItem(itemType);
             }
         }
     }
 
     private void UpdateInventoryUI()
     {
-        foreach (Item.ItemType itemType in Enum.GetValues(typeof(Item.ItemType)))
+        for (int i = 1; i <= maxSlots; i++)
         {
-            if (!Inventory.HasItem(itemType))
+            if (slotItems.TryGetValue(i, out Item.ItemType itemType))
             {
-                RemoveItem(itemType);
+                CreateOrUpdateItemSlot(i, itemType);
             }
             else
             {
-                AddOrUpdateItem(itemType, Inventory.GetItemCount(itemType));
+                CreateOrUpdateEmptySlot(i);
             }
         }
     }
 
-    private void AddOrUpdateItem(Item.ItemType itemType, int count)
+    private void CreateOrUpdateItemSlot(int slotIndex, Item.ItemType itemType)
     {
-        if (inventoryItems.ContainsKey(itemType))
+        Transform slotTransform = container.Find($"Slot_{slotIndex}");
+        int siblingIndex = -1;
+        if (slotTransform != null)
         {
-            UpdateItemQuantity(itemType, count);
+            siblingIndex = slotTransform.GetSiblingIndex();
+            Destroy(slotTransform.gameObject);
         }
-        else
+        slotTransform = Instantiate(inventoryItemTemplate, container);
+        slotTransform.name = $"Slot_{slotIndex}";
+        if (siblingIndex != -1)
         {
-            AddNewItem(itemType, count);
+            slotTransform.SetSiblingIndex(siblingIndex);
         }
+
+        slotTransform.Find("ItemQuantity").GetComponent<Text>().text = 'x' + Inventory.GetItemCount(itemType).ToString();
+        slotTransform.Find("ItemIcon").GetComponent<Image>().sprite = Item.GetIcon(itemType);
+
+        RectTransform slotRectTransform = slotTransform.GetComponent<RectTransform>();
+        slotRectTransform.anchoredPosition = new Vector2((slotIndex - 1) * 35f, 0);
+
+        slotTransform.gameObject.SetActive(true);
     }
 
-    private void UpdateItemQuantity(Item.ItemType itemType, int count)
+    private void CreateOrUpdateEmptySlot(int slotIndex)
     {
-        if (inventoryItems.TryGetValue(itemType, out GameObject itemObject))
+        Transform slotTransform = container.Find($"Slot_{slotIndex}");
+        int siblingIndex = -1;
+        if (slotTransform != null)
         {
-            itemObject.transform.Find("ItemQuantity").GetComponent<Text>().text = 'x' + count.ToString();
+            siblingIndex = slotTransform.GetSiblingIndex();
+            Destroy(slotTransform.gameObject);
         }
-        else
+        slotTransform = Instantiate(emptyInventoryItemTemplate, container);
+        slotTransform.name = $"Slot_{slotIndex}";
+        if (siblingIndex != -1)
         {
-            Debug.LogWarning($"Tried to update quantity for {itemType}, but it wasn't in the inventoryItems dictionary.");
+            slotTransform.SetSiblingIndex(siblingIndex);
         }
+
+        RectTransform slotRectTransform = slotTransform.GetComponent<RectTransform>();
+        slotRectTransform.anchoredPosition = new Vector2((slotIndex - 1) * 35f, 0);
+
+        slotTransform.gameObject.SetActive(true);
     }
 
-    private void AddNewItem(Item.ItemType itemType, int count)
+    public static void AddItemToSlot(Item.ItemType itemType)
     {
-        int index = FindNextEmptySlot();
-        if (index != -1)
+        // Check if the item already exists in any slot
+        foreach (var slot in slotItems)
         {
-            orderedItems.Add(itemType);
-            CreateInventoryItemUI(itemType, count, index);
-        }
-        else
-        {
-            Debug.LogWarning("No empty slots available to add new item.");
-        }
-    }
-
-    private int FindNextEmptySlot()
-    {
-        for (int i = 0; i < emptySlots.Length; i++)
-        {
-            if (emptySlots[i] != null && emptySlots[i].activeSelf)
+            if (slot.Value == itemType)
             {
-                return i;
+                // Item already exists, no need to add a new slot
+                return;
             }
         }
-        return -1;
-    }
 
-    private void RemoveItem(Item.ItemType itemType)
-    {
-        int count = Inventory.GetItemCount(itemType);
-        if (count > 1)
+        // If the item doesn't exist, find the first empty slot and add it
+        for (int i = 1; i <= instance.maxSlots; i++)
         {
-            UpdateItemQuantity(itemType, count - 1);
-        }
-        else
-        {
-            int index = orderedItems.IndexOf(itemType);
-            
-            if (index != -1)
+            if (!slotItems.ContainsKey(i))
             {
-                if (filledSlots[index] != null)
-                {
-                    Destroy(filledSlots[index]);
-                    filledSlots[index] = null;
-                }
-                emptySlots[index].SetActive(true);
-                inventoryItems.Remove(itemType);
-                orderedItems.RemoveAt(index);
-
-                // Reposition remaining items
-                RepositionItems();
-
-                PlayerWeaponManager.SwitchToPistol();
+                slotItems[i] = itemType;
+                return;
             }
         }
+        Debug.LogWarning("No empty slots available to add item.");
     }
 
-    private void RepositionItems()
+    public static void RemoveItemFromSlot(Item.ItemType itemType)
     {
-        for (int i = 0; i < orderedItems.Count; i++)
+        foreach (var slot in slotItems)
         {
-            if (filledSlots[i] != null)
+            if (slot.Value == itemType)
             {
-                RectTransform itemRectTransform = filledSlots[i].GetComponent<RectTransform>();
-                float inventoryItemWidth = 35f;
-                itemRectTransform.anchoredPosition = new Vector2(i * inventoryItemWidth, 0);
+                slotItems.Remove(slot.Key);
+                return;
             }
         }
-
-        // Move empty slots to the end
-        for (int i = orderedItems.Count; i < emptySlots.Length; i++)
-        {
-            if (emptySlots[i] != null)
-            {
-                RectTransform emptySlotRectTransform = emptySlots[i].GetComponent<RectTransform>();
-                float inventoryItemWidth = 35f;
-                emptySlotRectTransform.anchoredPosition = new Vector2(i * inventoryItemWidth, 0);
-                emptySlots[i].SetActive(true);
-            }
-        }
-    }
-
-    private void CreateInventoryItemUI(Item.ItemType itemType, int count, int index)
-    {
-        Transform inventoryItemTransform = Instantiate(inventoryItemTemplate, container);
-        inventoryItemTransform.SetSiblingIndex(container.childCount - index - 1);
-
-        Text itemQuantity = inventoryItemTransform.Find("ItemQuantity").GetComponent<Text>();
-        itemQuantity.text = 'x' + count.ToString();
-        Image iconImage = inventoryItemTransform.Find("ItemIcon").GetComponent<Image>();
-        iconImage.sprite = Item.GetIcon(itemType);
-
-        inventoryItemTransform.gameObject.SetActive(true);
-
-        inventoryItems[itemType] = inventoryItemTransform.gameObject;
-
-        filledSlots[index] = inventoryItemTransform.gameObject;
-        emptySlots[index].SetActive(false);
-    }
-
-    private GameObject CreateEmptyInventoryItemUI(int index)
-    {
-        Transform inventoryItemTransform = Instantiate(emptyInventoryItemTemplate, container);
-        RectTransform inventoryItemRectTransform = inventoryItemTransform.GetComponent<RectTransform>();
-
-        float inventoryItemWidth = 35f;
-        inventoryItemRectTransform.anchoredPosition = new Vector2(
-            index * inventoryItemWidth,
-            0
-        );
-
-        inventoryItemTransform.gameObject.SetActive(true);
-
-        return inventoryItemTransform.gameObject;
     }
 
     private void ActivateItem(Item.ItemType itemType)
@@ -239,38 +171,23 @@ public class InventoryUIController : MonoBehaviour
             case Item.ItemType.Armor:
                 PlayerPowerups.ActivateArmor();
                 Inventory.RemoveItem(itemType);
-                RemoveItem(itemType);
                 break;
             case Item.ItemType.SloMo:
                 PlayerPowerups.ActivateSloMo();
                 Inventory.RemoveItem(itemType);
-                RemoveItem(itemType);
                 break;
             case Item.ItemType.MoDamage:
                 PlayerPowerups.ActivateMoDamage();
                 Inventory.RemoveItem(itemType);
-                RemoveItem(itemType);
                 break;
             case Item.ItemType.MoAmmo:
                 PlayerPowerups.ActivateMoAmmo();
                 Inventory.RemoveItem(itemType);
-                RemoveItem(itemType);
                 break;
             case Item.ItemType.MoBullets:
                 PlayerPowerups.ActivateMoBullets();
                 Inventory.RemoveItem(itemType);
-                RemoveItem(itemType);
                 break;
-        }
-
-        activeItem = itemType;
-    }
-
-    private void MakeInitialInventory()
-    {
-        for (int index = 0; index < 10; index++)
-        {
-            emptySlots[index] = CreateEmptyInventoryItemUI(index);
         }
     }
 }
