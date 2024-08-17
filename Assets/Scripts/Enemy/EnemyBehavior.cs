@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnemyBehavior : MonoBehaviour
 {
@@ -8,9 +9,10 @@ public class EnemyBehavior : MonoBehaviour
 
     public float speed = 0.02f;
 
-    public float minimumDistance = 2f;
+    [FormerlySerializedAs("minimumDistance")] public float attackDistance = 1.5f;
+    public float idleDistance = 15f;
 
-    public float damage = 20f;
+    public float damage = 10f;
 
     public AudioClip[] groanSounds;
 
@@ -56,21 +58,21 @@ public class EnemyBehavior : MonoBehaviour
             return;
         }
 
-        if (CannotSeePlayer())
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (distanceToPlayer >= idleDistance)
         {
             BecomeIdle();
-            return;
         }
-
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer > minimumDistance)
+        else if (distanceToPlayer >= attackDistance)
         {
             StartWalking();
-            MoveTowardsPlayer();
+            if (!PauseMenuBehavior.isGamePaused)
+                MoveTowardsPlayer();
         }
         else
         {
-            StartAttacking();
+            if (!PauseMenuBehavior.isGamePaused)
+                StartAttacking();
         }
     }
 
@@ -79,23 +81,8 @@ public class EnemyBehavior : MonoBehaviour
         return animator.GetBool("dieNow");
     }
 
-    bool CannotSeePlayer()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, player.position - transform.position, out hit))
-        {
-            if (hit.transform != player)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     void MoveTowardsPlayer()
     {
-
         // move towards the player but keep y at 0
         transform.position = Vector3.MoveTowards(
             transform.position,

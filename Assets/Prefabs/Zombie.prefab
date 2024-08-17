@@ -1110,7 +1110,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 65796bd78e10b4110982304101f826b6, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -1132,7 +1132,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   speed: 0.1
-  minimumDistance: 2
+  attackDistance: 1.5
+  idleDistance: 15
   damage: 10
   groanSounds:
   - {fileID: 8300000, guid: ac04e3f36e78efb4aa86110672f39004, type: 3}

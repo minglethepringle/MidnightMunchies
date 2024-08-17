@@ -10,7 +10,7 @@ public class InventoryUIController : MonoBehaviour
     private Transform emptyInventoryItemTemplate;
     private static InventoryUIController instance;
 
-    private static Dictionary<int, Item.ItemType> slotItems = new Dictionary<int, Item.ItemType>();
+    public static Dictionary<int, Item.ItemType> slotItems = new Dictionary<int, Item.ItemType>();
 
     private void Awake()
     {

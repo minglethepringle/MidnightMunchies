@@ -37,6 +37,14 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    public void Purge()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
     private Vector3 GetRandomWorldPointInPolyShape()
     {
         // Get the bounds of the mesh

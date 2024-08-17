@@ -15,12 +15,12 @@ public class LevelManager : MonoBehaviour
     [Header("Level Management")]
     public List<GameObject> levelSpawners;
 
-    private static List<GameObject> staticLevelSpawners;
+    public static List<GameObject> staticLevelSpawners;
 
     public static bool isGameOver = false;
 
     private AudioSource backgroundMusicSource;
-    private static int levelIndex = 0;
+    public static int levelIndex = 0;
 
     [System.Serializable]
     public class Objective
@@ -32,7 +32,7 @@ public class LevelManager : MonoBehaviour
 
     [Header("Objectives")]
     public List<Objective> objectives;
-    private static int currentObjectiveIndex = 0;
+    public static int currentObjectiveIndex = 0;
 
     [Header("Objective Indicator")]
     public GameObject cylinderPrefab;
@@ -68,7 +68,7 @@ public class LevelManager : MonoBehaviour
         UpdateCylinderVisibility();
     }
     
-    private static void SpawnLevelEnemies()
+    public static void SpawnLevelEnemies()
     {
         staticLevelSpawners[levelIndex].GetComponent<EnemySpawner>().Spawn();
     }
@@ -115,7 +115,6 @@ public class LevelManager : MonoBehaviour
     public static void LevelBeat()
     {
         PlayerHealth.SetCurrentHealth(100);
-        PlayerCheckpoint.RecordCheckpoint();
         
         levelIndex++;
         currentObjectiveIndex++;
@@ -138,6 +137,8 @@ public class LevelManager : MonoBehaviour
         {
             instance.DisplayCurrentObjective();
         }
+        
+        PlayerCheckpoint.RecordCheckpoint();
     }
 
     public static string GetCurrentObjectiveText()
