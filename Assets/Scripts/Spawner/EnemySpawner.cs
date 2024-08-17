@@ -17,6 +17,13 @@ public class EnemySpawner : MonoBehaviour
     {
         try 
         {
+            Debug.Log("Is poly shape populated: " + (polyShape != null));
+            if (polyShape == null)
+            {
+                // Get the immediate child
+                polyShape = gameObject.GetComponentInChildren<PolyShape>();
+                Debug.Log("Is poly shape populated after getting child?: " + (polyShape != null));
+            }
             polyShapeCollider = polyShape.GetComponent<MeshCollider>();
         }
         catch (Exception e)
