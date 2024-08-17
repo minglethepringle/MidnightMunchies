@@ -29,6 +29,12 @@ public class Weapon : MonoBehaviour
         }
 
         PlayFireSound(position);
+
+        Item.ItemType itemType = PlayerWeaponManager.CurrentWeaponType();
+        if (itemType != Item.ItemType.Pistol)
+        {
+            Inventory.RemoveItem(itemType);
+        }
     }
 
     private void FireSingleProjectile(Vector3 position, Quaternion rotation)

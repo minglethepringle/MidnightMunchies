@@ -79,6 +79,12 @@ public class Airstrike : MonoBehaviour
         missileRb.velocity = (strikePosition - missileStartPosition).normalized * 300f;
 
         missileInstance.AddComponent<MissileImpact>().Initialize(this);
+
+        Item.ItemType itemType = PlayerWeaponManager.CurrentWeaponType();
+        if (itemType != Item.ItemType.Pistol)
+        {
+            Inventory.RemoveItem(itemType);
+        }
     }
 
     public void CreateExplosion(Vector3 position)

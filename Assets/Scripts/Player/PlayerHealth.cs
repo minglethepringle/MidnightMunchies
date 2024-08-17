@@ -100,7 +100,6 @@ public class PlayerHealth : MonoBehaviour
     public static void SetCurrentHealth(float health)
     {
         currentHealth = health;
-        Debug.Log("Health: " + currentHealth);
     }
 
     public static void IncreaseHealth(float amount)

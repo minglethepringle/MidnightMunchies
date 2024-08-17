@@ -22,6 +22,12 @@ public class Throwable : MonoBehaviour
         rb.isKinematic = false;
         Vector3 throwDirection = transform.forward;
         rb.AddForce(throwDirection * throwForce + Vector3.up * throwUpwardForce, ForceMode.Impulse);
+
+        Item.ItemType itemType = PlayerWeaponManager.CurrentWeaponType();
+        if (itemType != Item.ItemType.Pistol)
+        {
+            Inventory.RemoveItem(itemType);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

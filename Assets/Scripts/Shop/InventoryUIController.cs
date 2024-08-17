@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -59,15 +60,15 @@ public class InventoryUIController : MonoBehaviour
 
     private void UpdateInventoryUI()
     {
-        foreach (KeyValuePair<Item.ItemType, int> entry in Inventory.GetAllItems())
+        foreach (Item.ItemType itemType in Enum.GetValues(typeof(Item.ItemType)))
         {
-            if (entry.Value > 0)
+            if (!Inventory.HasItem(itemType))
             {
-                AddOrUpdateItem(entry.Key, entry.Value);
+                RemoveItem(itemType);
             }
             else
             {
-                RemoveItem(entry.Key);
+                AddOrUpdateItem(itemType, Inventory.GetItemCount(itemType));
             }
         }
     }
@@ -146,6 +147,8 @@ public class InventoryUIController : MonoBehaviour
 
                 // Reposition remaining items
                 RepositionItems();
+
+                PlayerWeaponManager.SwitchToPistol();
             }
         }
     }
@@ -235,22 +238,27 @@ public class InventoryUIController : MonoBehaviour
                 break;
             case Item.ItemType.Armor:
                 PlayerPowerups.ActivateArmor();
+                Inventory.RemoveItem(itemType);
                 RemoveItem(itemType);
                 break;
             case Item.ItemType.SloMo:
                 PlayerPowerups.ActivateSloMo();
+                Inventory.RemoveItem(itemType);
                 RemoveItem(itemType);
                 break;
             case Item.ItemType.MoDamage:
                 PlayerPowerups.ActivateMoDamage();
+                Inventory.RemoveItem(itemType);
                 RemoveItem(itemType);
                 break;
             case Item.ItemType.MoAmmo:
                 PlayerPowerups.ActivateMoAmmo();
+                Inventory.RemoveItem(itemType);
                 RemoveItem(itemType);
                 break;
             case Item.ItemType.MoBullets:
                 PlayerPowerups.ActivateMoBullets();
+                Inventory.RemoveItem(itemType);
                 RemoveItem(itemType);
                 break;
         }

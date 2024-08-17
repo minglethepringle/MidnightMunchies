@@ -71,7 +71,6 @@ public class PlayerBankAccount : MonoBehaviour
     public static void SetCurrentBalance(int balance)
     {
         currentBalance = balance;
-        Debug.Log("balance: " + currentBalance);
     }
 
     public static void UpdateBalanceText() {
