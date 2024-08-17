@@ -48,13 +48,15 @@ public class PlayerLookController : MonoBehaviour
 	public static void HideWeapons()
 	{
 		activeWeapon = GameObject.FindGameObjectWithTag("Weapon");
-		activeWeapon.SetActive(false);
+		if (activeWeapon)
+			activeWeapon.SetActive(false);
 		GameObject.FindGameObjectWithTag("Crosshair").GetComponent<CanvasRenderer>().cull = true;
 	}
 	
 	public static void ShowWeapons()
 	{
-		activeWeapon.SetActive(true);
+		if (activeWeapon)
+			activeWeapon.SetActive(true);
 		GameObject.FindGameObjectWithTag("Crosshair").GetComponent<CanvasRenderer>().cull = false;
 	}
 

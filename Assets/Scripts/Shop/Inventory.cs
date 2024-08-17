@@ -12,8 +12,6 @@ public class Inventory : MonoBehaviour
         {
             instance = this;
         }
-
-        AddItem(Item.ItemType.Pistol);
     }
 
     public static void AddItem(Item.ItemType itemType)
