@@ -46,6 +46,7 @@ public class Inventory : MonoBehaviour
             {
                 instance.inventoryItems.Remove(itemType);
                 InventoryUIController.RemoveItemFromSlot(itemType);
+                PlayerWeaponManager.SwitchToPistol();
             }
         }
     }
