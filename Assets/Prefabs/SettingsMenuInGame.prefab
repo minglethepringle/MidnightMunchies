@@ -1211,6 +1211,7 @@ GameObject:
   - component: {fileID: 5526350061378874732}
   - component: {fileID: 3060814467186436160}
   - component: {fileID: 4622834082952726334}
+  - component: {fileID: 4938257610747016064}
   m_Layer: 5
   m_Name: SettingsMenuInGame
   m_TagString: Untagged
@@ -1292,6 +1293,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensitivitySlider: {fileID: 3516596061064248594}
   volumeSlider: {fileID: 7522857363053302821}
+--- !u!114 &4938257610747016064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5921728362943588762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ee8f1ddeec7c408e8f8f608946e3941, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5998571639059493306
 GameObject:
   m_ObjectHideFlags: 0
