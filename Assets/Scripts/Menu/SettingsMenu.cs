@@ -10,6 +10,9 @@ public class SettingsMenu : MonoBehaviour
 
     void Start()
     {
+        sensitivitySlider.value = SettingsManager.Instance.Sensitivity;
+        volumeSlider.value = SettingsManager.Instance.Volume;
+
         sensitivitySlider.onValueChanged.AddListener(OnSensitivitySliderChanged);
         volumeSlider.onValueChanged.AddListener(OnVolumeSliderChanged);
     }
