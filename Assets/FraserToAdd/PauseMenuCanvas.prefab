@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 8773853596995439149}
+  sfx: {fileID: 8300000, guid: a4b56a400d3994c84a4c55367687fb5d, type: 3}
 --- !u!1 &8773853596995439149
 GameObject:
   m_ObjectHideFlags: 0

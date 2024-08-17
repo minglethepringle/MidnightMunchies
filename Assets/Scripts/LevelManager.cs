@@ -106,12 +106,21 @@ public class LevelManager : MonoBehaviour
         
         levelIndex++;
         currentObjectiveIndex++;
+
+        LevelManager instance = FindObjectOfType<LevelManager>();
+        if (levelIndex >= staticLevelSpawners.Count)
+        {
+            if (instance != null)
+            {
+                instance.GameWon();
+            }
+            return;
+        }
         
         Destroy(staticLevelSpawners[levelIndex - 1]);
 
         SpawnLevelEnemies();
 
-        LevelManager instance = FindObjectOfType<LevelManager>();
         if (instance != null)
         {
             instance.DisplayCurrentObjective();

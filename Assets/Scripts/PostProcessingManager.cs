@@ -38,6 +38,8 @@ public class PostProcessingManager : MonoBehaviour
 
     private IEnumerator FadeEffects(bool fadeIn, float duration)
     {
+        duration = 0;
+
         float elapsedTime = 0f;
         Color startTint = colorGrading.colorFilter.value;
         Color targetTint = fadeIn ? new Color(0.5f, 1f, 1f, 1f) : Color.white; // Blue-teal tint

@@ -19,11 +19,14 @@ public class PlayerHealth : MonoBehaviour
 
     public AudioClip invincibleSound;
 
+    public static bool isDead = false;
+
     // Start is called before the first frame update
     void Start()
     {
         currentHealth = startingHealth;
         isInvincible = false;
+        isDead = false;
     }
 
     // Update is called once per frame
@@ -71,6 +74,10 @@ public class PlayerHealth : MonoBehaviour
     }
 
     void Die() {
+        if (isInvincible) return;
+        if (isDead) return;
+
+        isDead = true;
         // AudioSource.PlayClipAtPoint(deathSound, transform.position);
 
         // rotate the object smoothly so it is lying flat facing up:
@@ -110,5 +117,10 @@ public class PlayerHealth : MonoBehaviour
         SetCurrentHealth(newHealth);
         
         Debug.Log($"Health increased by {amount}. Current health: {currentHealth}, Max health: {startingHealth}");
+    }
+
+    public static void Revive()
+    {
+        isDead = false;
     }
 }

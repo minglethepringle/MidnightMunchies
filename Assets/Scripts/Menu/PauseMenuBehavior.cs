@@ -7,12 +7,15 @@ public class PauseMenuBehavior : MonoBehaviour
 {
     public static bool isGamePaused = false;
     public GameObject pauseMenu;
+    public AudioClip sfx;
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            AudioSource.PlayClipAtPoint(sfx, Camera.main.transform.position, 2f);
+
             if (isGamePaused)
             {
                 ResumeGame();
