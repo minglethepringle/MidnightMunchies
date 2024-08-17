@@ -75,11 +75,11 @@ public class PlayerHealth : MonoBehaviour
 
         // rotate the object smoothly so it is lying flat facing up:
         // lerp
-        transform.rotation = Quaternion.Lerp(
-            transform.rotation,
-            Quaternion.Euler(90, 0, 0),
-            Time.deltaTime
-        );
+        // transform.rotation = Quaternion.Lerp(
+        //     transform.rotation,
+        //     Quaternion.Euler(90, 0, 0),
+        //     Time.deltaTime
+        // );
         FindObjectOfType<LevelManager>().LevelLost();
 
         // Destroy(gameObject, );
