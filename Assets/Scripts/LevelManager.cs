@@ -203,7 +203,7 @@ public class LevelManager : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(10);
 
         for (float t = 1; t > 0; t -= Time.deltaTime / 0.5f)
         {
