@@ -21,6 +21,7 @@ public class EnemySpawner : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.LogError($"Encountered exception: {e.Message}");
             Debug.LogError("PolyShape does not have a MeshCollider component. Trying to find one in children.");
             polyShapeCollider = polyShape.GetComponentInChildren<MeshCollider>();
         }
