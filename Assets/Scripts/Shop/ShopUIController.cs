@@ -73,7 +73,7 @@ public class ShopUIController : MonoBehaviour
 
         float shopItemHeight = 30f;
         shopItemRectTransform.anchoredPosition = new Vector2(
-            -50,
+            0,
             60 + (-shopItemHeight * container.childCount)
         );
 
