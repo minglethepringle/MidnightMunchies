@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Weapon : MonoBehaviour
 {
@@ -14,6 +16,13 @@ public class Weapon : MonoBehaviour
     public bool hasSpread = false;
     public int spreadProjectileCount = 5;
     public float spreadAngle = 20f;
+    
+    private AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     public void Fire(Vector3 position, Quaternion rotation)
     {
@@ -28,7 +37,7 @@ public class Weapon : MonoBehaviour
             FireSingleProjectile(position, rotation);
         }
 
-        PlayFireSound(position);
+        PlayFireSound();
 
         Item.ItemType itemType = PlayerWeaponManager.CurrentWeaponType();
         if (itemType != Item.ItemType.Pistol)
@@ -74,9 +83,10 @@ public class Weapon : MonoBehaviour
         projectile.transform.SetParent(GameObject.FindGameObjectWithTag("ProjectileParent").transform);
     }
 
-    private void PlayFireSound(Vector3 position)
+    private void PlayFireSound()
     {
         AudioClip soundToPlay = Random.Range(0, 2) == 0 ? gunSFX1 : gunSFX2;
-        AudioSource.PlayClipAtPoint(soundToPlay, position);
+        if (audioSource)
+            audioSource.PlayOneShot(soundToPlay);
     }
 }

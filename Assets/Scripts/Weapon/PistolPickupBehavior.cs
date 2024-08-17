@@ -7,6 +7,7 @@ public class PistolPickupBehavior : MonoBehaviour
 {
     public Text hintText;
     public Transform player;
+    public AudioClip pickupSFX;
     private bool isLooking;
     
     // Start is called before the first frame update
@@ -23,7 +24,9 @@ public class PistolPickupBehavior : MonoBehaviour
             Inventory.AddItem(Item.ItemType.Pistol);
             PlayerWeaponManager.SwitchToPistol();
             hintText.gameObject.SetActive(false);
-            Destroy(gameObject);
+            AudioSource.PlayClipAtPoint(pickupSFX, player.position, 0.15f);
+            gameObject.SetActive(false);
+            Destroy(gameObject, 2);
         }
     }
     

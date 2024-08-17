@@ -53,7 +53,7 @@ public class PlayerBankAccount : MonoBehaviour
     public static void AddHuskyDollars(int amount) {
         if (moneySoundStatic)
         {
-            AudioSource.PlayClipAtPoint(moneySoundStatic, Camera.main.transform.position);
+            AudioSource.PlayClipAtPoint(moneySoundStatic, Camera.main.transform.position, 0.15f);
         }
         currentBalance += amount;
         UpdateBalanceText();

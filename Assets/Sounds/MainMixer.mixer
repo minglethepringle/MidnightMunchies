@@ -142,7 +142,7 @@ AudioMixerSnapshotController:
     4613bc21350b31847bb6247f3acf0f0d: -14.221903
     cda90c02fd6010e4f92a543b8b4b495b: -8.841784
     13e480570db835242beb8f71c4441e1d: -13.637256
-    1ff8e0de053688d42a4225410a341e9b: -9.332112
+    1ff8e0de053688d42a4225410a341e9b: -10.345207
   m_TransitionOverrides: {}
 --- !u!243 &1455646046362038991
 AudioMixerGroupController:
@@ -197,7 +197,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gun Sounds
+  m_Name: Battle Sounds
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 6c034dc8623dd3849b6b2424aaafd2ec
   m_Children: []

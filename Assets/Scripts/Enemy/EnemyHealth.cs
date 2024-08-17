@@ -85,8 +85,8 @@ public class EnemyHealth : MonoBehaviour
 
         Vector3 moneyPosition = transform.position;
         moneyPosition.y = 1;
-        Instantiate(moneyPrefab, moneyPosition, Quaternion.identity);
-
+        GameObject moneyObject = Instantiate(moneyPrefab, moneyPosition, Quaternion.identity);
+        moneyObject.transform.parent = transform;
     }
 
     private float CalculateDistanceFromPlayer() {
