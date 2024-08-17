@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ public class SettingsMenu : MonoBehaviour
 {
     public Slider sensitivitySlider;
     public Slider volumeSlider;
-
+    
     void Start()
     {
         sensitivitySlider.value = PlayerPrefs.GetInt("Sensitivity", 5);

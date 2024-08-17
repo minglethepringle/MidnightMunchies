@@ -52,6 +52,9 @@ public class LevelManager : MonoBehaviour
         SpawnLevelEnemies();
         DisplayCurrentObjective();
         CreateObjectiveCylinder();
+        
+        PlayerLookController.SetMouseSens(PlayerPrefs.GetInt("Sensitivity", 5) * 40f);
+        PlayerLookController.SetVolume(PlayerPrefs.GetInt("Volume", 10) / 10f);
     }
 
     private IEnumerator RecordCheckpointAfterStart()
@@ -111,6 +114,7 @@ public class LevelManager : MonoBehaviour
 
     public static void LevelBeat()
     {
+        PlayerHealth.SetCurrentHealth(100);
         PlayerCheckpoint.RecordCheckpoint();
         
         levelIndex++;
