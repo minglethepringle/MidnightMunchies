@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
     public Text gameText;
-    public Text objectiveText; // New variable for objective text
+    public Text objectiveText;
 
     public AudioClip gameOverSFX;
     public AudioClip gameWonSFX;
@@ -27,11 +27,20 @@ public class LevelManager : MonoBehaviour
     {
         public string text;
         public GameObject locationObject;
+        public GameObject doorLocation;
     }
 
     [Header("Objectives")]
     public List<Objective> objectives;
     private static int currentObjectiveIndex = 0;
+
+    [Header("Objective Indicator")]
+    public GameObject cylinderPrefab;
+    private GameObject currentCylinder;
+    public float cylinderHeight = 30f;
+    public float fadeStartDistance = 10f;
+    public float fadeEndDistance = 2f;
+    private bool cylinderFadedOut = false;
 
     void Start()
     {
@@ -42,6 +51,7 @@ public class LevelManager : MonoBehaviour
         
         SpawnLevelEnemies();
         DisplayCurrentObjective();
+        CreateObjectiveCylinder();
     }
 
     private IEnumerator RecordCheckpointAfterStart()
@@ -52,7 +62,7 @@ public class LevelManager : MonoBehaviour
 
     void Update()
     {
-        // Update logic here if needed
+        UpdateCylinderVisibility();
     }
     
     private static void SpawnLevelEnemies()
@@ -72,7 +82,6 @@ public class LevelManager : MonoBehaviour
 
         Invoke("ReturnToMainMenu", 2);
     }
-
 
     public void LevelLost()
     {
@@ -127,7 +136,6 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    // Updated methods for objective management
     public static string GetCurrentObjectiveText()
     {
         LevelManager instance = FindObjectOfType<LevelManager>();
@@ -164,7 +172,10 @@ public class LevelManager : MonoBehaviour
             {
                 instance.GameWon();
             }
-            instance.DisplayCurrentObjective();
+            else
+            {
+                instance.DisplayCurrentObjective();
+            }
         }
     }
 
@@ -174,6 +185,7 @@ public class LevelManager : MonoBehaviour
         {
             StartCoroutine(FadeObjectiveText(objectives[currentObjectiveIndex].text));
         }
+        CreateObjectiveCylinder();
     }
 
     private IEnumerator FadeObjectiveText(string text)
@@ -181,7 +193,6 @@ public class LevelManager : MonoBehaviour
         objectiveText.text = text;
         objectiveText.gameObject.SetActive(true);
 
-        // Fade in
         for (float t = 0; t < 1; t += Time.deltaTime / 0.5f)
         {
             objectiveText.color = new Color(objectiveText.color.r, objectiveText.color.g, objectiveText.color.b, t);
@@ -190,7 +201,6 @@ public class LevelManager : MonoBehaviour
 
         yield return new WaitForSeconds(2);
 
-        // Fade out
         for (float t = 1; t > 0; t -= Time.deltaTime / 0.5f)
         {
             objectiveText.color = new Color(objectiveText.color.r, objectiveText.color.g, objectiveText.color.b, t);
@@ -198,5 +208,47 @@ public class LevelManager : MonoBehaviour
         }
 
         objectiveText.gameObject.SetActive(false);
+    }
+
+    private void CreateObjectiveCylinder()
+    {
+        if (currentCylinder != null)
+        {
+            Destroy(currentCylinder);
+        }
+
+        cylinderFadedOut = false;
+
+        if (currentObjectiveIndex < objectives.Count && objectives[currentObjectiveIndex].doorLocation != null)
+        {
+            Vector3 doorPosition = objectives[currentObjectiveIndex].doorLocation.transform.position;
+            currentCylinder = Instantiate(cylinderPrefab, doorPosition + Vector3.up * (cylinderHeight / 2), Quaternion.identity);
+            currentCylinder.transform.localScale = new Vector3(1, cylinderHeight, 1);
+        }
+    }
+
+    private void UpdateCylinderVisibility()
+    {
+        if (currentCylinder != null && objectives[currentObjectiveIndex].doorLocation != null && !cylinderFadedOut)
+        {
+            Vector3 doorPosition = objectives[currentObjectiveIndex].doorLocation.transform.position;
+            float distanceToDoor = Vector3.Distance(Camera.main.transform.position, doorPosition);
+            
+            float alpha = Mathf.Clamp01((distanceToDoor - fadeEndDistance) / (fadeStartDistance - fadeEndDistance));
+            
+            Renderer cylinderRenderer = currentCylinder.GetComponent<Renderer>();
+            if (cylinderRenderer != null && cylinderRenderer.material != null)
+            {
+                Color cylinderColor = cylinderRenderer.material.color;
+                cylinderRenderer.material.color = new Color(cylinderColor.r, cylinderColor.g, cylinderColor.b, alpha);
+                
+                if (alpha <= 0)
+                {
+                    cylinderFadedOut = true;
+                    Destroy(currentCylinder);
+                    currentCylinder = null;
+                }
+            }
+        }
     }
 }
