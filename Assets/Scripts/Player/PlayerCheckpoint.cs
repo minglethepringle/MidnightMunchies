@@ -45,6 +45,7 @@ public class PlayerCheckpoint : MonoBehaviour
     {
         Debug.Log("revert called");
         PlayerHealth.SetCurrentHealth(health);
+        PlayerHealth.Revive();
 
         PlayerBankAccount.SetCurrentBalance(balance);
         PlayerBankAccount.UpdateBalanceText();
